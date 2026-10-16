@@ -56,7 +56,6 @@ astrolabs/
 ├── AstroLabC7.ipynb      # one notebook per lab
 ├── astrolabs.py          # shared helper functions and widgets
 ├── data/C7/              # data files for each lab
-├── instructor/           # Canvas checkpoint questions and answers
 ├── Images/
 └── requirements.txt
 ```
