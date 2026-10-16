@@ -62,7 +62,7 @@ astrolabs/
 
 ## Data credits
 
-Each notebook lists the sources and references for its data at the end. AstroLab C7 uses the BATSE gamma-ray burst catalogue (NASA HEASARC), the 2MASS Redshift Survey (Huchra et al. 2012) and imaging from the DESI Legacy Imaging Surveys.
+Each notebook lists the sources and references for its data at the end. AstroLab C7 uses the BATSE gamma-ray burst catalogue (NASA HEASARC), the 2MASS Redshift Survey (Huchra et al. 2012) and an image of NGC 1365 from the DESI Legacy Imaging Surveys DR10.
 
 ## Contributing
 
