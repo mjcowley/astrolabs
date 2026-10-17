@@ -85,6 +85,12 @@ _ANSWERS = {
     "C7_sun_minutes": (8.3, 0.03, "Divide the Sun's distance by the speed of light, then convert to minutes."),
     "C7_proxima_pc": (1.30, 0.03, "Use .to(u.pc) on Proxima Centauri's distance."),
     "C7_orders": (17.5, 0.03, "Take log10 of (MoM-z14 distance / Moon distance)."),
+    "C8_planck_temperature": (1.42e32, 0.05, "Use T_P = sqrt(hbar c^5 / (G k^2)) and convert to kelvin."),
+    "C8_z_tenth": (9, 0.01, "Use 1 + z = 1 / a with a = 0.1."),
+    "C8_cmb_temperature": (2.725, 0.002, "Move the slider until the curve passes through the data points."),
+    "C8_decoupling_z": (1100, 0.03, "Use 1 + z = T_then / T_now with T_then = 3000 K."),
+    "C8_helium": (0.25, 0.03, "Use Y = 2 x / (1 + x) with x = 1/7."),
+    "C8_z_galaxy_C": (5.45, 0.015, "Line up the dashed lines with the bright emission lines of galaxy C."),
 }
 
 
@@ -392,3 +398,358 @@ def isotropy_explorer(galaxies, sky_map):
                                        description="Max (Mpc):",
                                        continuous_update=False),
     )
+
+
+# ===========================================================================
+# AstroLab C8: Running the Clock Backwards
+# ===========================================================================
+
+T_CMB_TODAY = 2.7255   # K (Fixsen 2009)
+
+# Rest-frame wavelengths (in micrometres) of bright lines in galaxy spectra
+REST_LINES = {
+    "Lyα": 0.1216,
+    "[O II]": 0.3727,
+    "Hβ": 0.4861,
+    "[O III]": 0.5007,
+    "Hα": 0.6563,
+}
+
+_AGE_TABLE = None
+
+
+def _age_table():
+    """Build a table of the age of the Universe against scale factor (Planck 2018)."""
+    global _AGE_TABLE
+    if _AGE_TABLE is None:
+        import astropy.units as u
+        from astropy.cosmology import Planck18
+        from scipy.integrate import cumulative_trapezoid
+        h0 = Planck18.H0.to(1 / u.s).value
+        omega_r = Planck18.Ogamma0 * (1 + 0.2271 * 3.046)   # photons + neutrinos
+        omega_m = Planck18.Om0
+        omega_l = 1 - omega_m - omega_r
+        a = np.logspace(-12, 0, 40000)
+        hubble = h0 * np.sqrt(omega_r * a**-4 + omega_m * a**-3 + omega_l)
+        t = cumulative_trapezoid(1 / (a * hubble), a, initial=0) + 1 / (2 * hubble[0])
+        _AGE_TABLE = (a, t)
+    return _AGE_TABLE
+
+
+def age_of_universe(z):
+    """Age of the Universe (as an astropy Quantity) when the light we see at redshift z set off."""
+    import astropy.units as u
+    a, t = _age_table()
+    return (np.interp(1 / (1 + np.asarray(z, dtype=float)), a, t) * u.s).to(u.yr)
+
+
+def redshift_at_age(age):
+    """Redshift at which the Universe had a given age (an astropy time Quantity)."""
+    import astropy.units as u
+    a, t = _age_table()
+    return 1 / np.interp(age.to(u.s).value, t, a) - 1
+
+
+def expansion_explorer():
+    """Interactive widget: stretch space with the scale factor a and watch light stretch too."""
+    import ipywidgets as widgets
+
+    # Galaxies spread evenly through space (in coordinates that stretch with it)
+    rng = np.random.default_rng(3)
+    gx, gy = rng.uniform(-5, 5, (2, 4000))
+
+    def show(a):
+        z = 1 / a - 1
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 4.5),
+                                       gridspec_kw={"width_ratios": [1, 1.6]})
+        inside = (np.abs(gx * a) < 0.5) & (np.abs(gy * a) < 0.5)
+        ax1.scatter(gx[inside] * a, gy[inside] * a, s=12, color=COLOURS["orange"])
+        ax1.set_xlim(-0.5, 0.5)
+        ax1.set_ylim(-0.5, 0.5)
+        ax1.set_aspect("equal")
+        ax1.set_xticks([])
+        ax1.set_yticks([])
+        ax1.set_title(f"A fixed patch of space: {inside.sum()} galaxies")
+
+        x = np.linspace(0, 10, 2000)
+        emitted = 1.0
+        ax2.plot(x, np.sin(2 * np.pi * x / emitted) + 1.5, color=COLOURS["blue"],
+                 label="Light when it set off")
+        ax2.plot(x, np.sin(2 * np.pi * x / (emitted * (1 + z))) - 1.5, color=COLOURS["red"],
+                 label="The same light arriving today")
+        ax2.set_yticks([])
+        ax2.set_xlabel("Distance along the wave")
+        ax2.set_ylim(-3.2, 3.2)
+        ax2.legend(loc="upper right", fontsize=10)
+        ax2.set_title(f"a = {a:.2f}  →  z = {z:.2f}  (wavelength stretched {1 + z:.1f}×)")
+        plt.tight_layout()
+        plt.show()
+        print(f"When the light set off, the Universe was {a:.0%} of its size today.")
+
+    widgets.interact(
+        show,
+        a=widgets.FloatSlider(value=0.5, min=0.1, max=1.0, step=0.01,
+                              description="Scale factor a:",
+                              style={"description_width": "initial"},
+                              continuous_update=False),
+    )
+
+
+def blackbody_fitter(frequency, intensity, error, model):
+    """
+    Interactive widget: change the temperature of a blackbody until it matches
+    the COBE FIRAS data. `model(frequency, T)` is the Planck function defined
+    in the notebook.
+    """
+    import ipywidgets as widgets
+
+    fine = np.linspace(frequency.min() * 0.8, frequency.max() * 1.05, 400)
+
+    def show(temperature):
+        prediction = model(frequency, temperature)
+        mismatch = np.sqrt(np.mean(((intensity - prediction) / error) ** 2))
+        fig, ax = plt.subplots(figsize=(9, 5))
+        ax.plot(fine, model(fine, temperature), color=COLOURS["red"], lw=2,
+                label=f"Blackbody at {temperature:.3f} K")
+        ax.errorbar(frequency, intensity, yerr=error * 100, fmt="o", ms=4,
+                    color=COLOURS["blue"], label="COBE FIRAS (error bars × 100)")
+        ax.set_xlabel("Frequency (GHz)")
+        ax.set_ylabel("Intensity (MJy/sr)")
+        ax.set_title("The spectrum of the cosmic microwave background")
+        ax.legend()
+        plt.show()
+        print(f"Typical mismatch: {mismatch:,.1f} error bars "
+              f"(a perfect match would be about 1)")
+
+    widgets.interact(
+        show,
+        temperature=widgets.FloatSlider(value=3.2, min=2.0, max=3.5, step=0.005,
+                                        readout_format=".3f",
+                                        description="Temperature (K):",
+                                        style={"description_width": "initial"},
+                                        continuous_update=False),
+    )
+
+
+def cmb_rewind(model):
+    """
+    Interactive widget: run the CMB back in time. Shows the blackbody spectrum
+    against wavelength at redshift z, with the visible band marked.
+    """
+    import ipywidgets as widgets
+    from astropy.constants import c as c_light
+
+    wavelength_um = np.logspace(-1, 4, 600)     # 0.1 micron to 1 cm
+    freq_ghz = (c_light.value / (wavelength_um * 1e-6)) / 1e9
+
+    def band(lam_um):
+        if lam_um < 0.38:
+            return "ultraviolet"
+        if lam_um < 0.75:
+            return "visible light"
+        if lam_um < 1000:
+            return "infrared"
+        return "microwaves"
+
+    def show(z):
+        temperature = T_CMB_TODAY * (1 + z)
+        with np.errstate(over="ignore"):
+            # brightness per unit wavelength, so the peak matches Wien's law
+            spectrum = model(freq_ghz, temperature) * freq_ghz**2
+        peak_um = 2898 / temperature            # Wien's law, in micrometres
+        fig, ax = plt.subplots(figsize=(10, 4.8))
+        ax.axvspan(0.38, 0.75, color="gold", alpha=0.35, label="Visible light")
+        ax.plot(wavelength_um, spectrum / spectrum.max(), color=COLOURS["red"], lw=2)
+        ax.axvline(peak_um, color="k", ls="--", lw=1)
+        ax.set_xscale("log")
+        ax.set_xlabel("Wavelength (micrometres)")
+        ax.set_ylabel("Brightness (scaled to the peak)")
+        ax.set_title(f"z = {z:,.0f}   |   T = {temperature:,.1f} K")
+        ax.legend(loc="upper right")
+        plt.show()
+        print(f"🌡️ Temperature: {temperature:,.1f} K")
+        print(f"📈 Peak wavelength: {peak_um:,.2f} micrometres ({band(peak_um)})")
+        print(f"📏 The Universe was {1 / (1 + z):.2%} of its size today")
+
+    widgets.interact(
+        show,
+        z=widgets.IntSlider(value=0, min=0, max=1500, step=10,
+                            description="Redshift z:",
+                            continuous_update=False),
+    )
+
+
+# Epochs from the PVB220 Big Bang lecture: (name, start, end) in years
+EPOCHS = [
+    ("Nucleosynthesis", 100 / 3.156e7, 1200 / 3.156e7),
+    ("Recombination", 3.3e5, 3.8e5),
+    ("Dark Ages", 3.8e5, 1.5e8),
+    ("Reionisation", 1.5e8, 1.0e9),
+    ("Galaxies", 1.0e9, 1.38e10),
+]
+
+
+def time_machine():
+    """Interactive widget: travel through cosmic history and read off z, a and T."""
+    import astropy.units as u
+    import ipywidgets as widgets
+
+    ages = np.logspace(np.log10(60 / 3.156e7), np.log10(1.37e10), 400)   # years
+    z_all = redshift_at_age(ages * u.yr)
+    temps = T_CMB_TODAY * (1 + z_all)
+    colours = ["#e08a1e", "#c0392b", "#4b3b6b", "#2a9d8f", "#1f5aa6"]
+
+    def show(log_age):
+        age = 10 ** log_age * u.yr
+        z = redshift_at_age(age)
+        temp = T_CMB_TODAY * (1 + z)
+        fig, ax = plt.subplots(figsize=(10, 5))
+        for (name, start, end), col in zip(EPOCHS, colours):
+            ax.axvspan(start, end, color=col, alpha=0.18)
+            ax.text(np.sqrt(start * end), 3e9 if name != "Recombination" else 3e7, name,
+                    ha="center", fontsize=9, rotation=90, va="top")
+        ax.plot(ages, temps, color="k", lw=2)
+        ax.plot(age.value, temp, "o", color=COLOURS["red"], ms=10)
+        ax.set_xscale("log")
+        ax.set_yscale("log")
+        ax.set_xlabel("Age of the Universe (years)")
+        ax.set_ylabel("Temperature (K)")
+        ax.set_title("The cosmic thermometer")
+        plt.show()
+        here = [name for name, start, end in EPOCHS if start <= age.value <= end]
+        print(f"⏳ Age: {_nice_time(age.to(u.s))}")
+        print(f"🌡️ Temperature: {temp:,.4g} K")
+        print(f"🔴 Redshift: z = {z:,.4g}   |   Size compared with today: {1 / (1 + z):.3g}")
+        print(f"📍 Epoch: {', '.join(here) if here else 'between epochs'}")
+
+    widgets.interact(
+        show,
+        log_age=widgets.FloatSlider(value=0.0, min=np.log10(100 / 3.156e7), max=10.139,
+                                    step=0.01, description="log₁₀(age / yr):",
+                                    style={"description_width": "initial"},
+                                    readout_format=".2f", continuous_update=False),
+    )
+
+
+def helium_explorer():
+    """Interactive widget: how the neutron to proton ratio sets the helium fraction."""
+    import ipywidgets as widgets
+
+    def show(neutrons_per_proton):
+        x = neutrons_per_proton
+        helium = 2 * x / (1 + x)
+        fig, ax = plt.subplots(figsize=(5, 5))
+        ax.pie([1 - helium, helium], labels=["Hydrogen", "Helium"],
+               colors=[COLOURS["blue"], COLOURS["orange"]],
+               autopct="%1.0f%%", startangle=90, textprops={"fontsize": 13})
+        ax.set_title("What the first stars were made of (by mass)")
+        plt.show()
+        print(f"Neutrons per proton: {x:.3f}  →  helium mass fraction Y = {helium:.3f}")
+
+    widgets.interact(
+        show,
+        neutrons_per_proton=widgets.FloatSlider(value=0.3, min=0.0, max=0.5, step=0.001,
+                                                readout_format=".3f",
+                                                description="Neutrons per proton:",
+                                                style={"description_width": "initial"},
+                                                continuous_update=False),
+    )
+
+
+def redshift_explorer(spectra):
+    """
+    Interactive widget: line up the dashed lines with the emission lines in a
+    JWST spectrum to measure its redshift. `spectra` is the table of spectra.
+    """
+    import ipywidgets as widgets
+
+    def show(galaxy, z):
+        s = spectra[spectra["galaxy"] == galaxy]
+        fig, ax = plt.subplots(figsize=(11, 5))
+        ax.plot(s["wavelength_um"], s["flux"], color="k", lw=1)
+        top = np.nanpercentile(s["flux"], 99.7) * 1.15
+        for name, rest in REST_LINES.items():
+            observed = rest * (1 + z)
+            if 0.6 <= observed <= 5.4:
+                ax.axvline(observed, color=COLOURS["red"], ls="--", lw=1)
+                ax.text(observed, top * 0.97, f" {name}", color=COLOURS["red"],
+                        rotation=90, va="top", fontsize=10)
+        ax.set_xlim(0.6, 5.4)
+        ax.set_ylim(min(-0.05 * top, np.nanmin(s["flux"])), top)
+        ax.set_xlabel("Observed wavelength (micrometres)")
+        ax.set_ylabel("Flux (10⁻²⁰ erg/s/cm²/Å)")
+        ax.set_title(f"Galaxy {galaxy} ({s['jades_id'].iloc[0]})   |   trying z = {z:.2f}")
+        plt.show()
+
+    widgets.interact(
+        show,
+        galaxy=widgets.ToggleButtons(options=sorted(spectra["galaxy"].unique()),
+                                     description="Galaxy:"),
+        z=widgets.FloatSlider(value=0.0, min=0.0, max=12.0, step=0.01,
+                              description="Redshift z:", readout_format=".2f",
+                              continuous_update=False),
+    )
+
+
+def _sky_image(ax, image, vmin, vmax, cmap="RdBu_r"):
+    """Draw a Mollweide sky image with the outside of the ellipse left blank."""
+    ax.imshow(np.ma.masked_invalid(image), origin="lower", cmap=cmap, vmin=vmin, vmax=vmax)
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.grid(False)
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+
+
+def cmb_layers_explorer(maps):
+    """Interactive widget: peel back the layers of the microwave sky."""
+    import ipywidgets as widgets
+
+    dipole, galaxy, cmb = maps["DIPOLE"], maps["GALAXY"], maps["CMB"]
+    layers = {
+        "1. The whole sky": (T_CMB_TODAY + (dipole + cmb) * 1e-6, 0, 3,
+                             "The same 2.725 K in every direction", "K"),
+        "2. Zoom ×1,000": (dipole + cmb, -3500, 3500,
+                           "Hotter ahead of us, cooler behind: our motion through space", "μK"),
+        "3. Remove our motion": (galaxy, -300, 300,
+                                 "The Milky Way glows across the middle", "μK"),
+        "4. Remove the Milky Way": (cmb, -300, 300,
+                                    "The ripples: the Universe 380,000 years after the Big Bang", "μK"),
+    }
+
+    def show(layer):
+        image, vmin, vmax, caption, unit = layers[layer]
+        fig, ax = plt.subplots(figsize=(11, 5.5))
+        _sky_image(ax, image, vmin, vmax, cmap="RdBu_r" if unit == "μK" else "inferno")
+        ax.set_title(caption)
+        cb = fig.colorbar(ax.images[0], ax=ax, orientation="horizontal", fraction=0.05, pad=0.04)
+        cb.set_label(f"Temperature ({unit})" if unit == "K" else f"Difference from 2.725 K ({unit})")
+        plt.show()
+
+    widgets.interact(show, layer=widgets.ToggleButtons(options=list(layers),
+                                                       description="Layer:"))
+
+
+def resolution_explorer(maps):
+    """Interactive widget: the same patch of the CMB seen by COBE, WMAP and Planck."""
+    import ipywidgets as widgets
+
+    info = {
+        "COBE (1992)": ("PATCH_COBE", "7° resolution"),
+        "WMAP (2003)": ("PATCH_WMAP", "0.35° resolution"),
+        "Planck (2013)": ("PATCH_PLANCK", "0.08° resolution"),
+    }
+
+    def show(mission):
+        key, res = info[mission]
+        fig, ax = plt.subplots(figsize=(6, 6))
+        ax.imshow(maps[key], origin="lower", cmap="RdBu_r", vmin=-300, vmax=300,
+                  extent=[-5, 5, -5, 5])
+        ax.set_xlabel("Degrees")
+        ax.set_ylabel("Degrees")
+        ax.grid(False)
+        ax.set_title(f"{mission}: {res}")
+        plt.show()
+
+    widgets.interact(show, mission=widgets.ToggleButtons(options=list(info),
+                                                         description="Mission:"))
