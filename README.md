@@ -14,7 +14,7 @@ Companion repositories: [Astro_Demos](https://github.com/mjcowley/astro_demos) (
 | --- | :-: | --- | --- |
 | C7 | 2 | Your Python Toolkit for the Universe: distance scales, lookback time, the cosmological principle, Olbers' paradox and your first FITS image | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/AstroLabC7.ipynb) |
 | C8 | 4 | Running the Clock Backwards: Planck units, the scale factor and redshift, the CMB spectrum, the cosmic thermometer and JWST galaxy redshifts | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/AstroLabC8.ipynb) |
-| C9 | 6 | Galaxy colours (UVJ), star formation and AGN | Coming soon |
+| C9 | 6 | Galaxies and Their Monsters: the Hubble tuning fork, galaxy spectra and colours, the UVJ diagram, the quasar 3C 273 and its Eddington limit, broad and narrow lines, and X-ray AGN in the Chandra Deep Field South | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/AstroLabC9.ipynb) |
 | C10 | 8 | Gravitational waves | Coming soon |
 | C11 | 10 | Cosmology surveys: cross-matching and scaling relations | Coming soon |
 
@@ -55,8 +55,9 @@ Data files are downloaded automatically into a `data/` folder the first time a n
 astrolabs/
 ├── AstroLabC7.ipynb      # one notebook per lab
 ├── AstroLabC8.ipynb
+├── AstroLabC9.ipynb
 ├── astrolabs.py          # shared helper functions and widgets
-├── data/C7/, data/C8/    # data files for each lab
+├── data/C7/ ... data/C9/ # data files for each lab
 ├── docs/                 # maintainer guide
 ├── tools/                # notebook test script
 ├── Images/
@@ -65,7 +66,7 @@ astrolabs/
 
 ## Data credits
 
-Each notebook lists the sources and references for its data at the end. AstroLab C7 uses the BATSE gamma-ray burst catalogue (NASA HEASARC), the 2MASS Redshift Survey (Huchra et al. 2012) and an image of NGC 1365 from the DESI Legacy Imaging Surveys DR10. AstroLab C8 uses the COBE FIRAS CMB spectrum (NASA LAMBDA), JWST NIRSpec spectra from JADES Data Release 4 (MAST), and CMB maps from Planck (NASA/IPAC IRSA) and WMAP (NASA LAMBDA).
+Each notebook lists the sources and references for its data at the end. AstroLab C7 uses the BATSE gamma-ray burst catalogue (NASA HEASARC), the 2MASS Redshift Survey (Huchra et al. 2012) and an image of NGC 1365 from the DESI Legacy Imaging Surveys DR10. AstroLab C8 uses the COBE FIRAS CMB spectrum (NASA LAMBDA), JWST NIRSpec spectra from JADES Data Release 4 (MAST), and CMB maps from Planck (NASA/IPAC IRSA) and WMAP (NASA LAMBDA). AstroLab C9 uses galaxy images from the DESI Legacy Imaging Surveys and SDSS, galaxy and AGN spectra from the Brown et al. (2014, 2019) atlases (MAST), the ZFOURGE survey (Straatman et al. 2016) with X-ray AGN matches from Cowley et al. (2016), and the Chandra Deep Field South 7 Ms catalogue (Luo et al. 2017).
 
 ## Contributing
 

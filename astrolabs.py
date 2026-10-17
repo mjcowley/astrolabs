@@ -91,6 +91,12 @@ _ANSWERS = {
     "C8_decoupling_z": (1100, 0.03, "Use 1 + z = T_then / T_now with T_then = 3000 K."),
     "C8_helium": (0.25, 0.03, "Use Y = 2 x / (1 + x) with x = 1/7."),
     "C8_z_galaxy_C": (5.45, 0.015, "Line up the dashed lines with the bright emission lines of galaxy C."),
+    "C9_E_ngc4473": (4.5, 0.25, "Stretch the ellipse to match the galaxy's outline, then use E = 10 (1 - b/a)."),
+    "C9_z_3c273": (0.158, 0.02, "Line up the dashed H-alpha line with the tallest peak, near 7590 Angstroms."),
+    "C9_distance_mpc": (667, 0.03, "Use v = cz, then d = v / H0 with H0 = 71 km/s/Mpc."),
+    "C9_brightness_ratio": (120, 0.05, "Use 100 ** ((m1 - m2) / 5) with M31's magnitude first."),
+    "C9_eddington_mass": (1.2e8, 0.05, "First turn 3C 273's magnitude into a luminosity, then multiply by 3.1e-5."),
+    "C9_eddington_rate": (2.9, 0.05, "Multiply the Eddington mass by 2.4e-8."),
 }
 
 
@@ -753,3 +759,206 @@ def resolution_explorer(maps):
 
     widgets.interact(show, mission=widgets.ToggleButtons(options=list(info),
                                                          description="Mission:"))
+
+
+# ===========================================================================
+# AstroLab C9: Galaxies and Their Monsters
+# ===========================================================================
+
+# Hubble types for the galaxy gallery (the answer key for galaxy_classifier)
+GALAXY_TYPES = {
+    "M87": ["Elliptical (E)"],
+    "NGC4473": ["Elliptical (E)"],
+    "NGC3115": ["Lenticular (S0)"],
+    "M104": ["Lenticular (S0)", "Spiral (S)"],
+    "M74": ["Spiral (S)"],
+    "NGC1300": ["Barred spiral (SB)"],
+    "NGC1427A": ["Irregular (Irr)"],
+}
+
+GALAXY_NOTES = {
+    "M87": "A giant elliptical in the Virgo Cluster. It hosts the black hole imaged by the Event Horizon Telescope!",
+    "NGC4473": "An elliptical in Virgo, clearly squashed compared with M87.",
+    "NGC3115": "The 'Spindle Galaxy'. Its thin disc seen edge-on gives it away as a lenticular, not an E7 elliptical.",
+    "M104": "The Sombrero. Astronomers still argue about whether it's a lenticular or an Sa spiral: both count!",
+    "M74": "A textbook 'grand design' spiral with no bar.",
+    "NGC1300": "A classic barred spiral: the arms start from the ends of a bright bar.",
+    "NGC1427A": "An irregular galaxy being torn apart as it falls through the Fornax Cluster.",
+}
+
+
+def galaxy_classifier(images):
+    """Interactive widget: classify each galaxy in the gallery on the tuning fork."""
+    import ipywidgets as widgets
+
+    choices = ["(choose)", "Elliptical (E)", "Lenticular (S0)", "Spiral (S)",
+               "Barred spiral (SB)", "Irregular (Irr)"]
+
+    def show(galaxy, my_class):
+        fig, ax = plt.subplots(figsize=(6, 6))
+        ax.imshow(images[galaxy])
+        ax.set_title(galaxy)
+        ax.axis("off")
+        plt.show()
+        if my_class == "(choose)":
+            print("👉 Choose a class from the menu.")
+        elif my_class in GALAXY_TYPES[galaxy]:
+            print(f"✅ Correct! {GALAXY_NOTES[galaxy]}")
+        else:
+            print("❌ Not quite. 💡 Look for a disc, spiral arms, a bar, or a smooth oval shape.")
+
+    widgets.interact(
+        show,
+        galaxy=widgets.Dropdown(options=list(images), description="Galaxy:"),
+        my_class=widgets.Dropdown(options=choices, description="Your class:",
+                                  style={"description_width": "initial"}),
+    )
+
+
+def ellipse_fitter(image, name):
+    """Interactive widget: fit an ellipse to a galaxy and work out its E class."""
+    import ipywidgets as widgets
+    from matplotlib.patches import Ellipse
+
+    ny, nx = image.shape[:2]
+
+    def show(size, axis_ratio, angle):
+        fig, ax = plt.subplots(figsize=(6, 6))
+        ax.imshow(image)
+        ax.add_patch(Ellipse((nx / 2, ny / 2), width=2 * size, height=2 * size * axis_ratio,
+                             angle=angle, fill=False, color="cyan", lw=2))
+        ax.set_title(name)
+        ax.axis("off")
+        plt.show()
+        e = 10 * (1 - axis_ratio)
+        print(f"b/a = {axis_ratio:.2f}   →   E = 10 (1 - b/a) = {e:.1f}   →   class E{int(e + 0.5)}")
+
+    widgets.interact(
+        show,
+        size=widgets.IntSlider(value=80, min=20, max=190, step=2, description="Size a (px):",
+                               style={"description_width": "initial"}, continuous_update=False),
+        axis_ratio=widgets.FloatSlider(value=1.0, min=0.3, max=1.0, step=0.01,
+                                       description="Axis ratio b/a:",
+                                       style={"description_width": "initial"},
+                                       continuous_update=False),
+        angle=widgets.IntSlider(value=0, min=0, max=180, step=2, description="Angle (°):",
+                                style={"description_width": "initial"}, continuous_update=False),
+    )
+
+
+def line_explorer(wavelength, flux, rest_lines, title, zmax=0.5, xlabel="Observed wavelength (Å)"):
+    """
+    Interactive widget: slide the redshift until the dashed lines (rest
+    wavelengths x (1 + z)) sit on the emission lines in a spectrum.
+    """
+    import ipywidgets as widgets
+
+    wavelength = np.asarray(wavelength)
+    flux = np.asarray(flux)
+
+    def show(z):
+        fig, ax = plt.subplots(figsize=(11, 5))
+        ax.plot(wavelength, flux, color="k", lw=1)
+        top = np.nanmax(flux) * 1.1
+        for name, rest in rest_lines.items():
+            observed = rest * (1 + z)
+            if wavelength.min() <= observed <= wavelength.max():
+                ax.axvline(observed, color=COLOURS["red"], ls="--", lw=1)
+                ax.text(observed, top * 0.98, f" {name}", color=COLOURS["red"],
+                        rotation=90, va="top", fontsize=10)
+        ax.set_ylim(0, top)
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel("Brightness (scaled)")
+        ax.set_title(f"{title}   |   trying z = {z:.3f}")
+        plt.show()
+
+    widgets.interact(
+        show,
+        z=widgets.FloatSlider(value=0.0, min=0.0, max=zmax, step=0.001, readout_format=".3f",
+                              description="Redshift z:", continuous_update=False),
+    )
+
+
+def line_width_explorer(spectra, line=6563.0):
+    """
+    Interactive widget: match a Gaussian to the H-alpha line of a Seyfert and
+    read off how fast the gas is moving.
+    """
+    import ipywidgets as widgets
+
+    def show(galaxy, speed):
+        s = spectra[(spectra["object"] == galaxy) & (spectra["wavelength_A"] > 6250)
+                    & (spectra["wavelength_A"] < 6900)]
+        w, f = s["wavelength_A"].values, s["flux"].values
+        continuum = np.median(np.r_[f[:15], f[-15:]])
+        centre = w[np.argmax(f)]
+        fwhm = centre * speed / 299792.458              # Doppler: Δλ/λ = v/c
+        sigma = fwhm / 2.355
+        model = continuum + (f.max() - continuum) * np.exp(-0.5 * ((w - centre) / sigma) ** 2)
+        fig, ax = plt.subplots(figsize=(10, 4.5))
+        ax.plot(w, f, color="k", lw=1, label=galaxy)
+        ax.plot(w, model, color=COLOURS["orange"], lw=2, label="Gas moving at ± your speed")
+        ax.set_xlabel("Wavelength (Å)")
+        ax.set_ylabel("Brightness (scaled)")
+        ax.set_title("The H-alpha line, zoomed in")
+        ax.legend()
+        plt.show()
+        print(f"Line width (FWHM): {fwhm:.0f} Å   →   gas speed ≈ {speed:,} km/s")
+
+    widgets.interact(
+        show,
+        galaxy=widgets.ToggleButtons(options=["NGC 4151 (Seyfert 1)", "NGC 1068 (Seyfert 2)"],
+                                     description="Galaxy:"),
+        speed=widgets.IntSlider(value=2000, min=100, max=10000, step=50,
+                                description="Gas speed (km/s):",
+                                style={"description_width": "initial"},
+                                continuous_update=False),
+    )
+
+
+def is_quiescent(u_minus_v, v_minus_j):
+    """True for galaxies inside the UVJ 'quiescent' box (Williams et al. 2009 style)."""
+    return (u_minus_v > 1.3) & (v_minus_j < 1.6) & (u_minus_v > 0.88 * v_minus_j + 0.69)
+
+
+def draw_uvj_box(ax):
+    """Draw the quiescent box on a UVJ diagram."""
+    ax.plot([-0.5, (1.3 - 0.69) / 0.88, 1.6, 1.6], [1.3, 1.3, 0.88 * 1.6 + 0.69, 2.6],
+            color="k", lw=2)
+    ax.text(0.0, 2.2, "Quiescent\n('red and dead')", fontsize=11)
+    ax.text(1.75, 0.5, "Star-forming", fontsize=11, ha="right")
+
+
+def uvj_explorer(galaxies):
+    """Interactive widget: the UVJ diagram in different slices of cosmic time."""
+    import ipywidgets as widgets
+
+    good = galaxies.dropna(subset=["U_minus_V", "V_minus_J"])
+    good = good[good["log_mass"] > 9.5]
+
+    def show(redshift_range):
+        lo, hi = redshift_range
+        d = good[(good["z"] > lo) & (good["z"] < hi)]
+        quiet = is_quiescent(d["U_minus_V"], d["V_minus_J"])
+        age_hi = age_of_universe(lo).to("Gyr").value
+        age_lo = age_of_universe(hi).to("Gyr").value
+        fig, ax = plt.subplots(figsize=(7, 6))
+        ax.scatter(d["V_minus_J"][~quiet], d["U_minus_V"][~quiet], s=6, alpha=0.5,
+                   color=COLOURS["blue"])
+        ax.scatter(d["V_minus_J"][quiet], d["U_minus_V"][quiet], s=6, alpha=0.6,
+                   color=COLOURS["red"])
+        draw_uvj_box(ax)
+        ax.set_xlim(-0.5, 2.5)
+        ax.set_ylim(-0.2, 2.6)
+        ax.set_xlabel("V − J colour (rest frame)")
+        ax.set_ylabel("U − V colour (rest frame)")
+        ax.set_title(f"{lo:.1f} < z < {hi:.1f}  (Universe {age_lo:.1f} to {age_hi:.1f} billion years old)")
+        plt.show()
+        print(f"Galaxies: {len(d)}   |   quiescent: {quiet.sum()} ({quiet.mean():.0%})")
+
+    widgets.interact(
+        show,
+        redshift_range=widgets.FloatRangeSlider(value=[2.0, 2.5], min=0.5, max=2.5, step=0.5,
+                                                description="Redshift:",
+                                                continuous_update=False),
+    )

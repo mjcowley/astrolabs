@@ -188,6 +188,12 @@ Colab can save directly back to GitHub: *File > Save a copy in GitHub*, choose `
 | `C8/firas_cmb_spectrum.csv` | COBE FIRAS monopole spectrum, NASA LAMBDA (`firas_monopole_spec_v1.txt`) | Converted cm⁻¹ to GHz and mm; uncertainties from kJy/sr to MJy/sr |
 | `C8/jwst_spectra.csv` | JADES DR4 NIRSpec prism `x1d` spectra, MAST HLSP | Five GOODS-S galaxies (IDs 3753, 159438, 202208, 12637, 265801); `EXTRACT5PIX1D` flux × 10²⁰ |
 | `C8/cmb_maps.fits` | Planck 2015 SMICA (IRSA), WMAP 9-year K band (LAMBDA) | Mollweide projections in Galactic coordinates with `healpy`; dipole is a model from the Planck 2018 amplitude and direction; patches are 10° × 10° at (l, b) = (240°, −55°) |
+| `C9/images/*.jpg` | DESI Legacy Surveys viewer (`jpeg-cutout`), DR9 layer for M87, NGC 4473, NGC 3115 and M74; DR10 for NGC 1300 and NGC 1427A; SDSS layer for M104 | 400 × 400 pixels. DR9/SDSS used where DR10 shows saturation artefacts on bright galaxies |
+| `C9/galaxy_spectra.csv` | Brown et al. (2014) atlas, STScI reference atlases (`cdbs/grid/brown`) | Six galaxies, resampled onto a common grid and normalised to 1 at 5500 Å (rest frame) |
+| `C9/agn_spectra.csv` | Brown et al. (2019) AGN SED atlas on MAST (`hlsps/agnsedatlas`, observed-frame text files) for 3C 273 and NGC 4151; Brown et al. (2014) for NGC 1068 | 3500 to 10000 Å, each normalised by its median |
+| `C9/zfourge_cdfs_galaxies.csv` | ZFOURGE CDFS (Straatman et al. 2016), VizieR `J/ApJ/830/51` tables `zf_cdfs`, `cdfssfr` | `Use = 1` only. Rest-frame U−V and V−J estimated by log-linear interpolation of the photometry (U, IA, HST, FourStar, Ks, IRAC bands with S/N > 2) at 0.365, 0.551 and 1.22 μm |
+| `C9/zfourge_xray_matches.csv` | VizieR `J/ApJ/830/51/cdfsxmatch` (`xAGN` flag, Cowley et al. 2016) | Galaxies with `Use = 1` and an X-ray match |
+| `C9/chandra_cdfs_7ms.csv` | Luo et al. (2017), VizieR `J/ApJS/228/2/sources` | AGN and galaxies with a redshift (`zF`) and `LX` (erg/s, rest-frame 0.5 to 7 keV, not corrected for absorption; `LXc` is the corrected value) |
 
 ## 8. Testing
 
