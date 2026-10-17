@@ -57,6 +57,8 @@ astrolabs/
 ├── AstroLabC8.ipynb
 ├── astrolabs.py          # shared helper functions and widgets
 ├── data/C7/, data/C8/    # data files for each lab
+├── docs/                 # maintainer guide
+├── tools/                # notebook test script
 ├── Images/
 └── requirements.txt
 ```
@@ -68,6 +70,8 @@ Each notebook lists the sources and references for its data at the end. AstroLab
 ## Contributing
 
 Contributions are welcome! If you have ideas for improvements or new labs, feel free to open an issue or submit a pull request.
+
+If you're maintaining the labs or writing a new one, start with [docs/MAINTAINING.md](docs/MAINTAINING.md). It explains how the notebooks, `astrolabs.py` and the data fit together, how to make and test changes safely, and how to manage the repository.
 
 ## Acknowledgements
 
