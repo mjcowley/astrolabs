@@ -97,6 +97,11 @@ _ANSWERS = {
     "C9_brightness_ratio": (120, 0.05, "Use 100 ** ((m1 - m2) / 5) with M31's magnitude first."),
     "C9_eddington_mass": (1.2e8, 0.05, "First turn 3C 273's magnitude into a luminosity, then multiply by 3.1e-5."),
     "C9_eddington_rate": (2.9, 0.05, "Multiply the Eddington mass by 2.4e-8."),
+    "C10_deflection_sun": (1.75, 0.03, "Use alpha = 4GM/(c^2 b) with b = the radius of the Sun, then convert radians to arcseconds."),
+    "C10_halo_speed": (126, 0.12, "Move the halo speed slider until the red curve runs through the flat part of the data."),
+    "C10_strain": (1.3e-21, 0.1, "Use h = (GM/c^2) (1/D) (v/c)^2 with v = 2e8 m/s."),
+    "C10_delay_ms": (7.0, 0.15, "Slide Livingston until its wiggles line up with Hanford's (and tick 'flip')."),
+    "C10_chirp_mass": (31, 0.12, "Move the slider until the white curve follows the bright chirp in the spectrogram."),
 }
 
 
@@ -977,3 +982,211 @@ def uvj_explorer(galaxies):
                                                 description="Redshift:",
                                                 continuous_update=False),
     )
+
+
+# ===========================================================================
+# AstroLab C10: Gravity's Fingerprints
+# ===========================================================================
+
+def deflection_explorer():
+    """Interactive widget: how much does the Sun bend starlight passing at distance b?"""
+    import ipywidgets as widgets
+
+    rad_to_arcsec = 206265.0
+    alpha_limb = 4 * 6.674e-11 * 1.989e30 / (2.998e8 ** 2 * 6.957e8) * rad_to_arcsec
+
+    def show(b, newton):
+        b_all = np.linspace(1, 20, 300)
+        fig, ax = plt.subplots(figsize=(9, 5))
+        ax.plot(b_all, alpha_limb / b_all, color=COLOURS["blue"], lw=2, label="Einstein (general relativity)")
+        if newton:
+            ax.plot(b_all, alpha_limb / 2 / b_all, color=COLOURS["grey"], lw=2, ls="--",
+                    label="Newton (half as much)")
+        ax.errorbar([1.0], [1.98], yerr=[0.16], fmt="s", color=COLOURS["red"], ms=8,
+                    label="Eddington's expedition, 1919 (Sobral)")
+        ax.plot(b, alpha_limb / b, "o", color=COLOURS["orange"], ms=12)
+        ax.set_xlabel("Closest approach b (in solar radii)")
+        ax.set_ylabel("Deflection (arcseconds)")
+        ax.set_ylim(0, 2.5)
+        ax.legend()
+        plt.show()
+        print(f"A star seen {b:.1f} solar radii from the Sun's centre is shifted by {alpha_limb / b:.2f}″")
+
+    widgets.interact(
+        show,
+        b=widgets.FloatSlider(value=1.0, min=1.0, max=20.0, step=0.5,
+                              description="b (solar radii):",
+                              style={"description_width": "initial"}, continuous_update=False),
+        newton=widgets.Checkbox(value=False, description="Show Newton's prediction"),
+    )
+
+
+def halo_speed(radius_kpc, v_inf, core_kpc):
+    """Rotation speed from a dark matter halo (a 'pseudo-isothermal' sphere)."""
+    r = np.asarray(radius_kpc, dtype=float)
+    return v_inf * np.sqrt(1 - core_kpc / r * np.arctan(r / core_kpc))
+
+
+def rotation_curve_fitter(data):
+    """Interactive widget: add a dark matter halo to NGC 2403 until the model fits the data."""
+    import ipywidgets as widgets
+
+    r = data["radius_kpc"].values
+    v_visible = np.sqrt(data["v_gas"] ** 2 + data["v_stars"] ** 2).values
+
+    def show(v_inf, core):
+        v_halo = halo_speed(r, v_inf, core)
+        v_total = np.sqrt(v_visible ** 2 + v_halo ** 2)
+        mismatch = np.sqrt(np.mean(((data["v_obs"] - v_total) / data["v_err"]) ** 2))
+        dark_fraction = v_halo[-1] ** 2 / v_total[-1] ** 2
+        fig, ax = plt.subplots(figsize=(10, 5.5))
+        ax.errorbar(r, data["v_obs"], yerr=data["v_err"], fmt="o", ms=4, color="k", label="NGC 2403 (measured)")
+        ax.plot(r, data["v_stars"], color=COLOURS["orange"], ls=":", label="Stars")
+        ax.plot(r, data["v_gas"], color=COLOURS["teal"], ls=":", label="Gas")
+        ax.plot(r, v_visible, color=COLOURS["blue"], lw=2, label="All visible matter")
+        ax.plot(r, v_halo, color=COLOURS["grey"], ls="--", label="Dark matter halo")
+        ax.plot(r, v_total, color=COLOURS["red"], lw=2.5, label="Visible + dark matter")
+        ax.set_xlabel("Distance from the centre (kpc)")
+        ax.set_ylabel("Rotation speed (km/s)")
+        ax.set_ylim(0, 180)
+        ax.legend(loc="lower right", fontsize=9)
+        plt.show()
+        print(f"Typical mismatch: {mismatch:.1f} error bars (smaller is better; the best possible here is about 3.7)")
+        print(f"Dark matter share of the mass inside {r[-1]:.0f} kpc: {dark_fraction:.0%}")
+
+    widgets.interact(
+        show,
+        v_inf=widgets.IntSlider(value=0, min=0, max=250, step=2, description="Halo speed (km/s):",
+                                style={"description_width": "initial"}, continuous_update=False),
+        core=widgets.FloatSlider(value=3.0, min=0.5, max=10.0, step=0.1, description="Halo core (kpc):",
+                                 style={"description_width": "initial"}, continuous_update=False),
+    )
+
+
+def whiten(strain, fs):
+    """
+    'Whiten' detector data: divide out the detector's noise at each frequency,
+    so no frequency drowns out the others.
+    """
+    from scipy import signal
+    freqs, psd = signal.welch(strain, fs, nperseg=4 * fs)
+    window = signal.windows.tukey(len(strain), 0.1)
+    spectrum = np.fft.rfft(strain * window)
+    f = np.fft.rfftfreq(len(strain), 1 / fs)
+    asd = np.sqrt(np.interp(f, freqs, psd))
+    return np.fft.irfft(spectrum / asd, n=len(strain))
+
+
+def bandpass(strain, fs, low=35, high=350):
+    """Keep only frequencies between low and high (in Hz)."""
+    from scipy import signal
+    b, a = signal.butter(4, [low, high], btype="band", fs=fs)
+    return signal.filtfilt(b, a, strain)
+
+
+def gw_cleaner(time, raw, whitened, cleaned):
+    """Interactive widget: step through the cleaning of the LIGO Hanford data."""
+    import ipywidgets as widgets
+
+    steps = {"1. Raw data": (raw, "Strain"),
+             "2. Whitened": (whitened, "Whitened strain"),
+             "3. Whitened + band-pass": (cleaned, "Whitened strain")}
+
+    def show(step, window):
+        y, label = steps[step]
+        m = (time > -window) & (time < 0.05)
+        fig, ax = plt.subplots(figsize=(11, 4.5))
+        ax.plot(time[m], y[m], color=COLOURS["blue"], lw=1)
+        ax.set_xlabel("Time from 14 September 2015, 09:50:45.4 UTC (seconds)")
+        ax.set_ylabel(label)
+        ax.set_title(f"LIGO Hanford: {step}")
+        plt.show()
+
+    widgets.interact(
+        show,
+        step=widgets.ToggleButtons(options=list(steps), description="Step:"),
+        window=widgets.FloatSlider(value=0.25, min=0.1, max=2.0, step=0.05,
+                                   description="Seconds shown:",
+                                   style={"description_width": "initial"}, continuous_update=False),
+    )
+
+
+def time_delay_explorer(time, hanford, livingston):
+    """Interactive widget: shift and flip Livingston's signal to match Hanford's."""
+    import ipywidgets as widgets
+
+    fs = 1 / (time[1] - time[0])
+    m = (time > -0.15) & (time < 0.03)
+
+    def show(shift_ms, flip):
+        shifted = np.roll(livingston, int(round(shift_ms / 1000 * fs))) * (-1 if flip else 1)
+        match = np.corrcoef(hanford[m], shifted[m])[0, 1]
+        fig, ax = plt.subplots(figsize=(11, 4.5))
+        ax.plot(time[m], hanford[m], color=COLOURS["blue"], lw=1.5, label="Hanford")
+        ax.plot(time[m], shifted[m], color=COLOURS["orange"], lw=1.5, alpha=0.8,
+                label=f"Livingston, shifted {shift_ms:+.1f} ms" + (" and flipped" if flip else ""))
+        ax.set_xlabel("Time (seconds)")
+        ax.set_ylabel("Whitened strain")
+        ax.legend(loc="upper left")
+        plt.show()
+        print(f"Match between the detectors: {match:+.2f} (1.00 would be a perfect match)")
+
+    widgets.interact(
+        show,
+        shift_ms=widgets.FloatSlider(value=0.0, min=-15, max=15, step=0.25, description="Shift (ms):",
+                                     continuous_update=False),
+        flip=widgets.Checkbox(value=False, description="Flip Livingston upside down"),
+    )
+
+
+def chirp_frequency(time_to_merger, chirp_mass):
+    """Gravitational wave frequency (Hz) a time (s) before merger, for a chirp mass in solar masses."""
+    tau = np.asarray(time_to_merger, dtype=float)
+    tm = 4.925e-6 * chirp_mass               # G M_chirp / c^3 in seconds
+    return (1 / np.pi) * (5 / (256 * tau)) ** (3 / 8) * tm ** (-5 / 8)
+
+
+def chirp_mass_fitter(time, cleaned, merger_time=0.028):
+    """Interactive widget: match a chirp to the spectrogram of GW150914 to weigh the black holes."""
+    import ipywidgets as widgets
+    from scipy import signal
+
+    fs = 1 / (time[1] - time[0])
+    m = (time > -1.0) & (time < 0.5)
+    f, t, power = signal.spectrogram(cleaned[m], fs, nperseg=128, noverlap=124, nfft=1024)
+    t = t + time[m][0]
+
+    def show(chirp_mass):
+        fig, ax = plt.subplots(figsize=(10, 5))
+        ax.pcolormesh(t, f, power, shading="auto", cmap="viridis")
+        tau = np.linspace(0.5, 0.002, 400)
+        ax.plot(merger_time - tau, chirp_frequency(tau, chirp_mass), color="w", lw=2, ls="--")
+        ax.set_ylim(20, 400)
+        ax.set_xlim(-0.3, 0.05)
+        ax.set_xlabel("Time (seconds)")
+        ax.set_ylabel("Frequency (Hz)")
+        ax.set_title(f"GW150914 spectrogram with a chirp for {chirp_mass:.0f} M☉")
+        plt.show()
+
+    widgets.interact(
+        show,
+        chirp_mass=widgets.IntSlider(value=10, min=1, max=80, step=1, description="Chirp mass (M☉):",
+                                     style={"description_width": "initial"}, continuous_update=False),
+    )
+
+
+def chirp_sound(chirp_mass, duration=2.0, fs=4096, start_hz=30):
+    """
+    Make a simple chirp waveform for a given chirp mass, starting at start_hz
+    and ending at merger. Returns (time, waveform) at sample rate fs.
+    """
+    # time before merger when the frequency is start_hz
+    tm = 4.925e-6 * chirp_mass
+    tau0 = 5 / 256 * (np.pi * start_hz) ** (-8 / 3) * tm ** (-5 / 3)
+    tau0 = min(tau0, duration)
+    t = np.arange(0, tau0, 1 / fs)
+    tau = np.maximum(tau0 - t, 1e-4)
+    f = chirp_frequency(tau, chirp_mass)
+    phase = 2 * np.pi * np.cumsum(f) / fs
+    wave = (f / f.max()) ** (2 / 3) * np.cos(phase)
+    return t - tau0, wave

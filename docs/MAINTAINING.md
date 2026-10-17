@@ -194,6 +194,9 @@ Colab can save directly back to GitHub: *File > Save a copy in GitHub*, choose `
 | `C9/zfourge_cdfs_galaxies.csv` | ZFOURGE CDFS (Straatman et al. 2016), VizieR `J/ApJ/830/51` tables `zf_cdfs`, `cdfssfr` | `Use = 1` only. Rest-frame U−V and V−J estimated by log-linear interpolation of the photometry (U, IA, HST, FourStar, Ks, IRAC bands with S/N > 2) at 0.365, 0.551 and 1.22 μm |
 | `C9/zfourge_xray_matches.csv` | VizieR `J/ApJ/830/51/cdfsxmatch` (`xAGN` flag, Cowley et al. 2016) | Galaxies with `Use = 1` and an X-ray match |
 | `C9/chandra_cdfs_7ms.csv` | Luo et al. (2017), VizieR `J/ApJS/228/2/sources` | AGN and galaxies with a redshift (`zF`) and `LX` (erg/s, rest-frame 0.5 to 7 keV, not corrected for absorption; `LXc` is the corrected value) |
+| `C10/ngc2403_rotation_curve.csv` | SPARC (Lelli et al. 2016), VizieR `J/AJ/152/157/table2`, NGC 2403 | Kept radius, Vobs, e_Vobs, Vgas; `v_stars` = Vdisk × √0.5 (3.6 μm mass-to-light ratio of 0.5). Best fit with the pseudo-isothermal halo: v∞ ≈ 126 km/s, core ≈ 1.6 kpc, mismatch ≈ 3.7 |
+| `C10/gw150914_strain.npz` | GWOSC event API, GWTC-1-confident GW150914 v3, 32 s, 4 kHz `txt.gz` files for H1 and L1 | Stored as float32 arrays `H1`, `L1` with `fs` and `t_start` (seconds relative to GPS 1126259462.4) |
+| `C10/gw_catalogue.csv` | GWOSC `eventapi/json/allevents` | Confident events from GWTC-1/2.1/3 confident and GWTC-4.0/4.1/5.0 with p_astro ≥ 0.9 and source-frame masses; latest catalogue kept per event |
 
 ## 8. Testing
 
@@ -204,7 +207,7 @@ python tools/test_notebooks.py                   # every lab
 python tools/test_notebooks.py AstroLabC8.ipynb  # just one
 ```
 
-The script runs each notebook in a temporary folder and lists any cell that fails. It knows about the deliberate error in C7's "Fix the broken cell" activity and ignores it. If you add another deliberate error, add it to `EXPECTED_ERRORS` at the top of the script.
+The script runs each notebook in a temporary folder and lists any cell that fails. It tests your **local** `astrolabs.py`: the setup cell's download from GitHub is skipped during tests, so you can test helper changes before they reach `main`. It knows about the deliberate error in C7's "Fix the broken cell" activity and ignores it. If you add another deliberate error, add it to `EXPECTED_ERRORS` at the top of the script.
 
 The script runs every widget once with its default values, so it catches crashes but not plots that look wrong. **After changing a widget, also open the notebook in Jupyter and try the sliders yourself**, including their extreme values.
 
