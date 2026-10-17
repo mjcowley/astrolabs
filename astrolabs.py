@@ -807,12 +807,19 @@ def galaxy_classifier(images):
         else:
             print("❌ Not quite. 💡 Look for a disc, spiral arms, a bar, or a smooth oval shape.")
 
-    widgets.interact(
-        show,
-        galaxy=widgets.Dropdown(options=list(images), description="Galaxy:"),
-        my_class=widgets.Dropdown(options=choices, description="Your class:",
-                                  style={"description_width": "initial"}),
-    )
+    galaxy = widgets.Dropdown(options=list(images), description="Galaxy:")
+    my_class = widgets.Dropdown(options=choices, description="Your class:",
+                                style={"description_width": "initial"})
+
+    # Clear the previous answer whenever a new galaxy is picked. This observer
+    # is added before interact's own, so it runs first and the old answer is
+    # never marked against the new galaxy.
+    def reset_class(change):
+        my_class.value = "(choose)"
+
+    galaxy.observe(reset_class, names="value")
+
+    widgets.interact(show, galaxy=galaxy, my_class=my_class)
 
 
 def ellipse_fitter(image, name):
