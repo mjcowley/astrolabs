@@ -102,6 +102,9 @@ _ANSWERS = {
     "C10_strain": (1.3e-21, 0.1, "Use h = (GM/c^2) (1/D) (v/c)^2 with v = 2e8 m/s."),
     "C10_delay_ms": (7.0, 0.15, "Slide Livingston until its wiggles line up with Hanford's (and tick 'flip')."),
     "C10_chirp_mass": (31, 0.12, "Move the slider until the white curve follows the bright chirp in the spectrogram."),
+    "C11_hubble_constant": (70.6, 0.04, "Fit a straight line through the origin to velocity (cz) against distance."),
+    "C11_false_match_percent": (1.9, 0.3, "Count the shifted matches inside your radius and divide by the number of ZFIRE galaxies."),
+    "C11_outlier_percent": (1.4, 0.3, "Count galaxies with |z_phot - z_spec| / (1 + z_spec) > 0.15."),
 }
 
 
@@ -1190,3 +1193,82 @@ def chirp_sound(chirp_mass, duration=2.0, fs=4096, start_hz=30):
     phase = 2 * np.pi * np.cumsum(f) / fs
     wave = (f / f.max()) ** (2 / 3) * np.cos(phase)
     return t - tau0, wave
+
+
+# ===========================================================================
+# AstroLab C11: Surveying the Universe
+# ===========================================================================
+
+def cosmology_explorer(supernovae, h0=73.0):
+    """
+    Interactive widget: choose the amounts of matter and dark energy and compare
+    the predicted brightness of supernovae with the Pantheon+ data. Distances
+    are shown relative to an empty Universe (no matter, no dark energy).
+    """
+    import ipywidgets as widgets
+    from astropy.cosmology import LambdaCDM
+
+    sn = supernovae[supernovae["z"] > 0.01].sort_values("z")
+    empty = LambdaCDM(H0=h0, Om0=0.0, Ode0=0.0)
+    z = sn["z"].values
+    residual = sn["distance_modulus"].values - empty.distmod(z).value
+
+    # Average the supernovae in redshift bins so the trend is easy to see
+    edges = np.logspace(np.log10(0.01), np.log10(2.3), 16)
+    centres, means, errors = [], [], []
+    for lo, hi in zip(edges[:-1], edges[1:]):
+        inside = (z >= lo) & (z < hi)
+        if inside.sum() >= 3:
+            w = 1 / sn["error"].values[inside] ** 2
+            centres.append(np.sqrt(lo * hi))
+            means.append(np.sum(w * residual[inside]) / np.sum(w))
+            errors.append(1 / np.sqrt(np.sum(w)))
+
+    z_model = np.logspace(-2, np.log10(2.3), 200)
+
+    def show(omega_matter, omega_lambda):
+        model = LambdaCDM(H0=h0, Om0=omega_matter, Ode0=omega_lambda)
+        curve = model.distmod(z_model).value - empty.distmod(z_model).value
+        predicted = model.distmod(z).value
+        mismatch = np.sqrt(np.mean(((sn["distance_modulus"].values - predicted) / sn["error"].values) ** 2))
+        total = omega_matter + omega_lambda
+        q0 = omega_matter / 2 - omega_lambda
+        fig, ax = plt.subplots(figsize=(10, 5.5))
+        ax.scatter(z, residual, s=4, alpha=0.2, color=COLOURS["grey"], label="Individual supernovae")
+        ax.errorbar(centres, means, yerr=errors, fmt="o", color="k", label="Averages")
+        ax.plot(z_model, curve, color=COLOURS["red"], lw=2.5,
+                label=f"Ω_M = {omega_matter:.2f}, Ω_Λ = {omega_lambda:.2f}")
+        ax.axhline(0, color=COLOURS["blue"], ls="--", lw=1, label="Empty Universe")
+        ax.set_xscale("log")
+        ax.set_ylim(-1.0, 0.8)
+        ax.set_xlabel("Redshift z")
+        ax.set_ylabel("Magnitudes compared with an empty Universe")
+        ax.text(0.99, 0.97, "↑ fainter (further away)", transform=ax.transAxes, ha="right", va="top", fontsize=10)
+        ax.text(0.99, 0.03, "↓ brighter (closer)", transform=ax.transAxes, ha="right", va="bottom", fontsize=10)
+        ax.legend(loc="lower left", fontsize=9)
+        plt.show()
+        geometry = "flat" if abs(total - 1) < 0.05 else ("closed" if total > 1 else "open")
+        print(f"Typical mismatch: {mismatch:.2f} error bars (smaller is better)")
+        print(f"Ω_total = {total:.2f}  →  a {geometry} Universe")
+        print(f"Expansion today is {'accelerating' if q0 < 0 else 'slowing down'}")
+
+    widgets.interact(
+        show,
+        omega_matter=widgets.FloatSlider(value=1.0, min=0.0, max=1.5, step=0.05, description="Ω_M (matter):",
+                                         style={"description_width": "initial"}, continuous_update=False),
+        omega_lambda=widgets.FloatSlider(value=0.0, min=0.0, max=1.5, step=0.05, description="Ω_Λ (dark energy):",
+                                         style={"description_width": "initial"}, continuous_update=False),
+    )
+
+
+def bpt_lines(log_nii_ha, redshift=0.0):
+    """
+    The Kewley et al. (2013) dividing line between star formation and AGN on the
+    BPT diagram, which moves with redshift (redshift = 0 gives Kewley et al. 2001).
+    """
+    x = np.asarray(log_nii_ha, dtype=float)
+    shift = 0.02 + 0.1833 * redshift if redshift > 0 else 0.47
+    top = 1.2 + 0.03 * redshift if redshift > 0 else 1.19
+    with np.errstate(divide="ignore"):
+        y = 0.61 / (x - shift) + top
+    return np.where(x < shift, y, np.nan)
