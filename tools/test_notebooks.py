@@ -29,9 +29,10 @@ EXPECTED_ERRORS = [
 ]
 
 
-# Headless runs can stall when an interactive widget first draws a plot, so
-# replace ipywidgets.interact with a version that calls the function once
-# with each widget's default value. The same plotting code still runs.
+# Code run before each notebook. Headless runs can stall when an interactive
+# widget first draws a plot, so ipywidgets.interact is replaced with a version
+# that calls the function once with each widget's default value (the same
+# plotting code still runs).
 WIDGET_PATCH = """
 import ipywidgets as _widgets
 
@@ -39,6 +40,18 @@ def _run_once(function, **controls):
     function(**{name: getattr(control, "value", control) for name, control in controls.items()})
 
 _widgets.interact = _run_once
+
+# Test the local astrolabs.py, not the copy on GitHub: the setup cell's
+# download is skipped because the file is already here.
+import urllib.request as _request
+_real_retrieve = _request.urlretrieve
+
+def _keep_local(url, filename=None, *args, **kwargs):
+    if filename == "astrolabs.py":
+        return filename, None
+    return _real_retrieve(url, filename, *args, **kwargs)
+
+_request.urlretrieve = _keep_local
 """
 
 
