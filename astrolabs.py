@@ -794,7 +794,15 @@ def galaxy_classifier(images):
     choices = ["(choose)", "Elliptical (E)", "Lenticular (S0)", "Spiral (S)",
                "Barred spiral (SB)", "Irregular (Irr)"]
 
+    shown = {"galaxy": None}
+
     def show(galaxy, my_class):
+        # A new galaxy always starts with a blank answer
+        if galaxy != shown["galaxy"]:
+            shown["galaxy"] = galaxy
+            if my_class != "(choose)":
+                class_menu.value = "(choose)"     # redraws with the menu cleared
+                return
         fig, ax = plt.subplots(figsize=(6, 6))
         ax.imshow(images[galaxy])
         ax.set_title(galaxy)
@@ -807,19 +815,19 @@ def galaxy_classifier(images):
         else:
             print("❌ Not quite. 💡 Look for a disc, spiral arms, a bar, or a smooth oval shape.")
 
-    galaxy = widgets.Dropdown(options=list(images), description="Galaxy:")
-    my_class = widgets.Dropdown(options=choices, description="Your class:",
-                                style={"description_width": "initial"})
+    galaxy_menu = widgets.Dropdown(options=list(images), description="Galaxy:")
+    class_menu = widgets.Dropdown(options=choices, description="Your class:",
+                                  style={"description_width": "initial"})
 
-    # Clear the previous answer whenever a new galaxy is picked. This observer
-    # is added before interact's own, so it runs first and the old answer is
-    # never marked against the new galaxy.
+    # Also clear the answer as soon as a new galaxy is picked. Together with the
+    # check at the top of show(), the old answer is never marked against the
+    # new galaxy, whatever order the widget events arrive in.
     def reset_class(change):
-        my_class.value = "(choose)"
+        class_menu.value = "(choose)"
 
-    galaxy.observe(reset_class, names="value")
+    galaxy_menu.observe(reset_class, names="value")
 
-    widgets.interact(show, galaxy=galaxy, my_class=my_class)
+    widgets.interact(show, galaxy=galaxy_menu, my_class=class_menu)
 
 
 def ellipse_fitter(image, name):
