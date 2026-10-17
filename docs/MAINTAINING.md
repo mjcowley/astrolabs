@@ -197,6 +197,9 @@ Colab can save directly back to GitHub: *File > Save a copy in GitHub*, choose `
 | `C10/ngc2403_rotation_curve.csv` | SPARC (Lelli et al. 2016), VizieR `J/AJ/152/157/table2`, NGC 2403 | Kept radius, Vobs, e_Vobs, Vgas; `v_stars` = Vdisk × √0.5 (3.6 μm mass-to-light ratio of 0.5). Best fit with the pseudo-isothermal halo: v∞ ≈ 126 km/s, core ≈ 1.6 kpc, mismatch ≈ 3.7 |
 | `C10/gw150914_strain.npz` | GWOSC event API, GWTC-1-confident GW150914 v3, 32 s, 4 kHz `txt.gz` files for H1 and L1 | Stored as float32 arrays `H1`, `L1` with `fs` and `t_start` (seconds relative to GPS 1126259462.4) |
 | `C10/gw_catalogue.csv` | GWOSC `eventapi/json/allevents` | Confident events from GWTC-1/2.1/3 confident and GWTC-4.0/4.1/5.0 with p_astro ≥ 0.9 and source-frame masses; latest catalogue kept per event |
+| `C11/pantheon_plus_supernovae.csv` | Pantheon+SH0ES data release (`Pantheon+SH0ES.dat`, github.com/PantheonPlusSH0ES/DataRelease) | Kept name, `zHD`, `MU_SH0ES` and its diagonal error; Cepheid calibrator rows removed (1,624 rows). v = cz fit through the origin at 0.01 < z < 0.05 gives H0 ≈ 70.6 km/s/Mpc; best Ω_M, Ω_Λ ≈ 0.3, 0.6 to 0.7 at H0 = 73 |
+| `C11/zfourge_cosmos.csv` | ZFOURGE COSMOS (Straatman et al. 2016), VizieR `J/ApJ/830/51` tables `zf_cosmos`, `cosmossfr`, `cosmosz`, `cosxmatch` | `Use = 1` only (11,861 rows). `z_phot` = EAZY `zpk`; `log_sfr` = log10 of the UV + IR SFR (NaN where ≤ 0); `r_eff_arcsec` from van der Wel et al. (2014). 23 of the 161 ZFIRE galaxies match a `Use ≠ 1` source and so have no counterpart here (explained in the notebook) |
+| `C11/zfire_cosmos.csv` | ZFIRE (Nanayakkara et al. 2016), VizieR `J/ApJ/828/21/zfire_cos` | `q_zsp = 3` only (161 rows); kept cluster membership, AGN flag and Hα, [N II], Hβ, [O III] fluxes (`FHa`, `FNII`, `FHb`, `FOIII`; the notebook drops zero fluxes before taking logs) |
 
 ## 8. Testing
 
