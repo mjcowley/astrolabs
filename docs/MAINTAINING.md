@@ -154,7 +154,7 @@ Edit notebooks in Jupyter (or Colab, see below), never by hand in a text editor.
 
 ### Conventions used in every lab
 
-* **The first code cell is the setup cell** (`#@title ▶️ Run me first: setup`). Keep it identical across labs apart from the imports a lab needs.
+* **The first code cell is the setup cell** (`#@title ▶️ Run me first: setup`). Keep it identical across labs apart from the imports a lab needs. It always downloads the latest `astrolabs.py` from `main` and reloads it (falling back to an existing copy when offline), so fixes reach students the next time they run it. This also overwrites any edits a student made to their own copy.
 * **Icons:** ▶️ run this cell, 👉 change this value, 🎯 Canvas checkpoint, 💡 hint, 🔍 peek inside, 🚀 stretch activity. They're explained in Part 0 of C7.
 * **Canvas checkpoints** are block quotes: `> 🎯 **Canvas checkpoint Q3:** ...`. Number them in order. If you add, remove or reorder one, update the Canvas quiz and the answer file to match.
 * **Students never have to write code.** Anything they change should be a single marked value (`# 👉 Change this and re-run`) or a slider.
@@ -255,8 +255,8 @@ These are then built as H5P quizzes on Canvas. Students get unlimited attempts a
 | Problem | Likely cause and fix |
 | --- | --- |
 | Students get `Couldn't download ...` | The file isn't on `main` yet (not merged), the path or name is wrong, or the repository has been made private. Check the file opens at `https://raw.githubusercontent.com/mjcowley/astrolabs/main/data/...` |
-| A change isn't showing up for students | GitHub caches files for a few minutes. Students who already ran the setup cell have the old `astrolabs.py` saved next to their notebook: *Runtime > Disconnect and delete runtime* in Colab, or delete `astrolabs.py` on JupyterHub, then re-run. |
+| A change isn't showing up for students | GitHub caches files for a few minutes. After that, re-running the setup cell downloads and reloads the latest `astrolabs.py`. If a widget still shows the old behaviour, use *Runtime > Disconnect and delete runtime* in Colab (or restart the kernel on JupyterHub) and run from the top. |
 | Sliders appear but plots don't update | `ipywidgets` isn't installed or enabled (common on JupyterHub). In Colab, re-run the cell. |
-| `AttributeError: module 'astrolabs' has no attribute ...` | The student's saved copy of `astrolabs.py` is older than the notebook. Same fix as above. |
+| `AttributeError: module 'astrolabs' has no attribute ...` | The student's copy of `astrolabs.py` is older than the notebook, usually because they were offline when the setup cell ran. Re-run the setup cell with internet access. |
 | A notebook works locally but not in Colab | Locally you're using the files in your folder; Colab downloads from `main`. Make sure everything is merged, and check package versions (`al.setup()` prints them). |
 | Merge conflict on a pull request | Someone else changed the same lines. On your branch, run `git pull origin main`, fix the marked sections, commit and push again. For notebooks, it's often easiest to redo your edit on a fresh branch from `main`. |
