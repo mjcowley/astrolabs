@@ -64,15 +64,15 @@ For Part 1 you'll need the three JWST images below. They're cut out from the ful
 
 ### Part 2 data
 
-For Part 2 you'll need these three images of NGC 7293. They're small, so this is quick.
+For Part 2 you'll need these three images of NGC 7293. They're small, so this is quick. Like the Part 1 images, they're compressed FITS files that SAOImageDS9 opens directly.
 
-| File |
-| --- |
-| [ngc7293_spitzer3.6micron.fits](https://github.com/mjcowley/astrolabs/raw/main/data/C1/ngc7293_spitzer3.6micron.fits) |
-| [ngc7293_spitzer24micron.fits](https://github.com/mjcowley/astrolabs/raw/main/data/C1/ngc7293_spitzer24micron.fits) |
-| [ngc7293_herschel250micron.fits](https://github.com/mjcowley/astrolabs/raw/main/data/C1/ngc7293_herschel250micron.fits) |
+| File | Size |
+| --- | --- |
+| [ngc7293_spitzer_irac_3.6micron.fits.fz](https://github.com/mjcowley/astrolabs/raw/main/data/C1/ngc7293_spitzer_irac_3.6micron.fits.fz) | 5.6 MB |
+| [ngc7293_spitzer_mips_24micron.fits.fz](https://github.com/mjcowley/astrolabs/raw/main/data/C1/ngc7293_spitzer_mips_24micron.fits.fz) | 0.4 MB |
+| [ngc7293_herschel_spire_250micron.fits.fz](https://github.com/mjcowley/astrolabs/raw/main/data/C1/ngc7293_herschel_spire_250micron.fits.fz) | 0.1 MB |
 
-The Part 2 images were processed by Dr George Bendo (Jodrell Bank Centre for Astrophysics, University of Manchester) using data from the Spitzer and Herschel archives. Our thanks to George for making them available.
+They're cut out from the Spitzer Enhanced Imaging Products and the Herschel High Level Images in NASA's Infrared Science Archive ([IRSA](https://irsa.ipac.caltech.edu/)), so all three cover the same patch of sky. The corners of the Herschel image are blank because the telescope didn't map that far out.
 
 ### Before you start
 
@@ -114,7 +114,7 @@ Now it's your turn to be the astronomer. You have three images of an object call
 
 1. **Research your object.** Find out what NGC 7293 is. What kind of object is it, roughly how far away is it, how did it form, and what's at its centre? Good places to start are [SIMBAD](https://simbad.cds.unistra.fr/simbad/), NASA's and ESA's websites, and Wikipedia (then follow its references). Note your sources, as you'll need them in your proforma.
 
-2. **Work out what you have.** The file names tell you the telescope and wavelength of each image. For each one, find out what that wavelength mainly shows in an object like this, such as starlight, warm dust or cold dust. Record this in the table in your proforma.
+2. **Work out what you have.** The file names tell you the telescope, instrument and wavelength of each image. For each one, find out what that wavelength mainly shows in an object like this, such as starlight, warm dust or cold dust. Record this in the table in your proforma.
 
 3. **Decide your colours.** Use the same rule as Part 1: shortest wavelength in blue, middle in green, longest in red.
 
@@ -146,5 +146,6 @@ The Part 1 images are cut out from much bigger mosaics. Find the full observatio
 
 ## Credits
 
-* Part 1: JWST NIRCam images of NGC 3324 from program 2731 (the JWST Early Release Observations), via MAST. Cut out with [`tools/make_c1_cutouts.py`](../tools/make_c1_cutouts.py).
-* Part 2: images of NGC 7293 processed by Dr George Bendo (University of Manchester) from Spitzer and Herschel archive data.
+* Part 1: JWST NIRCam images of NGC 3324 from program 2731 (the JWST Early Release Observations), via MAST.
+* Part 2: Spitzer IRAC and MIPS images of NGC 7293 from the Spitzer Enhanced Imaging Products, and a Herschel SPIRE image from the Herschel High Level Images, via IRSA. Herschel is an ESA space observatory with science instruments provided by European-led Principal Investigator consortia and with important participation from NASA.
+* All the images were cut out with [`tools/make_c1_data.py`](../tools/make_c1_data.py).
