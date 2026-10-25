@@ -172,7 +172,7 @@ Colab can save directly back to GitHub: *File > Save a copy in GitHub*, choose `
 ## 7. Adding or updating data
 
 * Put each lab's files in `data/C<lab>/` and load them with `al.get_data("C<lab>/filename")`.
-* **Keep files small.** Students download them every session, sometimes on slow connections. Aim for under about 10 MB per lab. Trim catalogues to the columns and rows the lab uses, and shrink images and maps (C8's CMB maps are stored as 16-bit integers with a scale factor to halve their size).
+* **Keep files small.** Students download them every session, sometimes on slow connections. Aim for under about 10 MB per notebook lab. GitHub refuses any file over 100 MB and warns above 50 MB, so keep every file under 50 MB (C1's JWST images are cut out and compressed for this reason). Trim catalogues to the columns and rows the lab uses, and shrink images and maps (C8's CMB maps are stored as 16-bit integers with a scale factor to halve their size).
 * **Prefer simple formats:** CSV for tables, FITS for images and maps (also good practice for students, since FITS is the astronomy standard).
 * **Never rename or delete a file** a notebook uses (section 2). To replace data, add a new file name and update the notebook.
 * **Credit every data source** in the notebook's credits section and the README's *Data credits* section, with the reference paper and archive.
@@ -182,6 +182,8 @@ Colab can save directly back to GitHub: *File > Save a copy in GitHub*, choose `
 
 | File | Source | Processing |
 | --- | --- | --- |
+| `C1/carina_jwst_*.fits.fz` | JWST NIRCam mosaics of NGC 3324 (program 2731, `jw02731-o001_t017_nircam_clear-*_i2d.fits`), MAST | Made with `tools/make_c1_data.py`: the same 264″ × 157″ patch of sky from each filter at full resolution, saved with RICE tile compression (quantize level 16). About 83 MB in total instead of about 12 GB for the full mosaics |
+| `C1/ngc7293_*.fits.fz` | Spitzer Enhanced Imaging Products (IRAC 3.6 μm and MIPS 24 μm mosaics, AOR 40045030) and Herschel High Level Images (SPIRE 250 μm, obsid 1342256744), IRSA | Made with `tools/make_c1_data.py`: the same 26′ × 26′ patch of sky centred on NGC 7293 from each, at native resolution, RICE compressed |
 | `C7/batse_grbs.csv` | BATSE 4B catalogue, HEASARC table `batsegrb` | Kept name, RA, Dec and Galactic coordinates |
 | `C7/nearby_galaxies.csv` | 2MASS Redshift Survey, VizieR `J/ApJS/199/26/table3` | Kept Galactic coordinates and cz for cz > 0; distance = cz / 70 km/s/Mpc |
 | `C7/galaxy_grz.fits` | DESI Legacy Surveys DR10 cutout service | NGC 1365, 800 × 800 pixels at 1″/pixel, g, r, z bands |
