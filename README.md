@@ -71,6 +71,7 @@ astrolabs/
 ├── AstroLabC10.ipynb
 ├── AstroLabC11.ipynb
 ├── astrolabs.py          # shared helper functions and widgets
+├── canvas/               # HTML for each lab's Canvas page
 ├── data/C1/ ... data/C11/ # data files for each lab
 ├── docs/                 # maintainer guide
 ├── tools/                # notebook test script and data preparation scripts
