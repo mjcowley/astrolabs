@@ -13,7 +13,7 @@ This guide is for anyone who looks after the PVB220 AstroLabs: fixing a typo, ch
 7. [Adding or updating data](#7-adding-or-updating-data)
 8. [Testing](#8-testing)
 9. [Writing a new lab](#9-writing-a-new-lab)
-10. [Canvas questions and answers](#10-canvas-questions-and-answers)
+10. [Canvas pages, questions and answers](#10-canvas-pages-questions-and-answers)
 11. [Before each semester](#11-before-each-semester)
 12. [Troubleshooting](#12-troubleshooting)
 
@@ -23,16 +23,19 @@ This guide is for anyone who looks after the PVB220 AstroLabs: fixing a typo, ch
 
 ```
 astrolabs/
-├── AstroLabC7.ipynb      # one notebook per lab (C7, C8, ...)
+├── C1/                   # instructions, images and proforma for each software lab (C1 to C6)
+├── AstroLabC7.ipynb      # one notebook per Python lab (C7 to C11)
 ├── AstroLabC8.ipynb
 ├── astrolabs.py          # shared helper module used by every notebook
+├── canvas/               # the HTML for each lab's Canvas page
 ├── data/
-│   ├── C7/               # data files for each lab
-│   └── C8/
+│   ├── C1/               # data files for each lab
+│   └── C7/
 ├── docs/
 │   └── MAINTAINING.md    # this guide
 ├── tools/
-│   └── test_notebooks.py # runs every notebook and reports errors
+│   ├── test_notebooks.py # runs every notebook and reports errors
+│   └── make_c1_data.py   # rebuilds the C1 data files
 ├── Images/               # logo used in the README and notebooks
 ├── README.md             # the public front page
 └── requirements.txt      # Python packages the labs need
@@ -231,7 +234,19 @@ Finally, after merging, open the lab from the README's *Open in Colab* badge and
 
 Each lab should practise one new Python skill on top of the earlier labs (C7: variables, units, arrays, tables and plots; C8: functions and fitting a model to data), but always in a form students can complete by running cells and moving sliders.
 
-## 10. Canvas questions and answers
+## 10. Canvas pages, questions and answers
+
+### Canvas pages
+
+Each lab has a short Canvas page with a banner, *Start here* buttons linking to the lab on GitHub, the key facts, and how to complete it on campus or remotely. The step-by-step instructions and data live on GitHub, so the Canvas page rarely needs to change.
+
+The HTML for each page is kept in `canvas/` (for example `canvas/C1.html`), so a page can be restored if Canvas's editor garbles it or a course copy breaks it.
+
+* **Edit the copy in `canvas/` first,** then paste it into the Canvas page's HTML editor (*Edit*, then the `</>` button). If you change a page directly in Canvas, copy the HTML back here afterwards so the two don't drift apart.
+* **Keep the same layout for every lab:** banner, *Start here*, the four fact boxes, *Overview*, then *How to complete this AstroLab*. Boxes use a full border (`2px solid #003562` for *Start here*, `1px solid #9db3cb` for the others) rather than a coloured edge.
+* **Nothing private goes in these pages.** Like everything else here they're public, so link to Canvas items by name (for example the *Assignments* page) rather than pasting Canvas URLs.
+
+### Canvas questions and answers
 
 **Answer files never go in this repository.** The repository is public and indexed by search engines, so anything committed here (even if later deleted) can be found in the history.
 
