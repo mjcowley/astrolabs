@@ -4,8 +4,7 @@ Make the data files and figures used in AstroLab C2.
 Part 1 uses ten Faulkes Telescope North images of WASP-2 from the Las Cumbres
 Observatory (LCO) archive, taken on 2008-10-05 UT and stored in
 data/C2/wasp2_lco_images.zip. They were renamed in time order (see
-docs/MAINTAINING.md for the original LCO file names). This script reads the
-first image to draw the finder chart.
+docs/MAINTAINING.md for the original LCO file names).
 
 Part 2 uses the TESS 2-minute light curve of WASP-2 (TIC 374530847) from
 Sector 81, downloaded from MAST. This script saves it as a simple CSV and
@@ -22,16 +21,12 @@ Usage (from the repository root):
 import io
 import os
 import urllib.request
-import zipfile
 
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
-from astropy.coordinates import SkyCoord
 from astropy.io import fits
-from astropy.visualization import ZScaleInterval
-from astropy.wcs import WCS
 
 DATA = os.path.join("data", "C2")
 IMAGES = os.path.join("C2", "images")
@@ -41,13 +36,6 @@ TESS_URL = "https://mast.stsci.edu/api/v0.1/Download/file?uri=mast:TESS/product/
 NAVY = "#003562"
 GREY = "#8a9bb0"
 INK = "#1f2933"
-WASP2 = SkyCoord("20h30m54.13s", "+06d25m46.3s")
-REFERENCE_STARS = {          # bright, isolated stars of similar brightness, picked by eye
-    "A": SkyCoord(307.6823, 6.4261, unit="deg"),
-    "B": SkyCoord(307.7409, 6.4780, unit="deg"),
-    "C": SkyCoord(307.7155, 6.4670, unit="deg"),
-}
-
 plt.rcParams.update({"font.size": 12, "axes.edgecolor": "#52606d", "axes.labelcolor": INK,
                      "xtick.color": "#52606d", "ytick.color": "#52606d"})
 
@@ -119,29 +107,6 @@ def plot_transit(days, brightness):
     plt.close(fig)
 
 
-def finder_chart():
-    with zipfile.ZipFile(os.path.join(DATA, "wasp2_lco_images.zip")) as archive:
-        with archive.open("wasp2_lco_01.fits") as file:
-            hdul = fits.open(io.BytesIO(file.read()))
-            image = hdul[0].data.astype(float)
-            wcs = WCS(hdul[0].header)
-    low, high = ZScaleInterval().get_limits(image)
-    fig, ax = plt.subplots(figsize=(8, 8))
-    ax.imshow(image, origin="lower", cmap="gray_r", vmin=low, vmax=high)
-    for label, position, colour in [("WASP-2", WASP2, "#c62828")] + \
-            [(name, position, NAVY) for name, position in REFERENCE_STARS.items()]:
-        x, y = wcs.world_to_pixel(position)
-        ax.add_patch(plt.Circle((x, y), 28, fill=False, color=colour, lw=2.5))
-        ax.text(x + 34, y + 34, label, color=colour, fontsize=15, fontweight="bold")
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.set_title("Finder chart: image 1 of 10, with WASP-2 and three reference stars", color=INK,
-                 fontsize=12, loc="left")
-    fig.tight_layout()
-    fig.savefig(os.path.join(IMAGES, "finder_chart.png"), dpi=110)
-    plt.close(fig)
-
-
 def transit_diagram():
     positions = [-2.1, -1.0, 0, 1.0, 2.1]
     depth = 0.02
@@ -186,5 +151,4 @@ if __name__ == "__main__":
     days, brightness = tess_light_curve()
     plot_full(days, brightness)
     plot_transit(days, brightness)
-    finder_chart()
     transit_diagram()
