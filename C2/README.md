@@ -12,17 +12,17 @@ Watch a planet cross in front of its star, first through a telescope on the grou
 
 ## Overview
 
-An [exoplanet](http://astro.vaporia.com/start/exoplanet.html) is a planet orbiting a star other than the Sun. Exoplanets are far too faint and too close to their stars to photograph directly, except in a handful of cases. Instead, astronomers find most of them indirectly, and the most successful method has found [thousands](https://exoplanetarchive.ipac.caltech.edu/): the **transit method**.
+An [exoplanet](http://astro.vaporia.com/start/exoplanet.html) is a planet orbiting a star other than the Sun. Exoplanets are far too faint and too close to their stars to photograph directly, except in a handful of cases. Instead, astronomers find most of them indirectly, and the most successful method has found [thousands](https://exoplanetarchive.ipac.caltech.edu/), the transit method.
 
-If a planet's orbit happens to be lined up with our view, then once every orbit the planet passes in front of its star and blocks a tiny fraction of its light. The star dims slightly for an hour or two, then recovers. A plot of a star's brightness over time is called a **light curve**, and a transit shows up as a small, flat-bottomed dip.
+If a planet's orbit happens to be lined up with our view, then once every orbit the planet passes in front of its star and blocks a tiny fraction of its light. The star dims slightly for an hour or two, then recovers. A plot of a star's brightness over time is called a light curve, and a transit shows up as a small, flat-bottomed dip.
 
 <img src="images/transit_diagram.png" alt="A planet crossing in front of a star (top) and the matching light curve (bottom). The brightness stays at 100% before and after the transit, falls during ingress as the planet moves onto the star, stays at 98% while the planet is fully in front of the star, and rises again during egress." width="650" />
 
 *A transit: as the planet moves across the star, the star's brightness dips. The size of the dip is the transit depth.*
 
-The dip is small, usually 1% or less, so measuring it is a challenge. Earth's atmosphere makes stars flicker and fade, and the star sinks lower in the sky during the night. The solution is **differential photometry**: measure the target star *and* some nearby reference stars in every image. The atmosphere affects them all in the same way, so comparing the target with the reference stars cancels it out and leaves only the real change in the target.
+The dip is small, usually a couple of percent or less, so measuring is a challenge. Earth's atmosphere makes stars flicker and fade, and the star sinks lower in the sky during the night. The solution is differential photometry, which is a measure the target star *and* some nearby reference stars in every image. The atmosphere affects them all in the same way, so comparing the target with the reference stars cancels it out and leaves only the real change in the target.
 
-In this AstroLab you'll study **WASP-2b**, a giant planet discovered in 2006 by the UK's Wide Angle Search for Planets (WASP). In Part 1, you'll use AstroImageJ to measure its transit in ten images from a 2-metre telescope on the ground. In Part 2, you'll compare your result with the same planet seen by NASA's TESS space telescope, and use both light curves to work out what kind of planet it is.
+In this AstroLab you'll study WASP-2b, a giant planet discovered in 2006 by the UK's Wide Angle Search for Planets (WASP). In Part 1, you'll use AstroImageJ to measure its transit in ten images from a 2-metre telescope on the ground. In Part 2, you'll compare your result with the same planet seen by NASA's TESS space telescope, and use both light curves to work out what kind of planet it is.
 
 **By the end of this AstroLab you'll be able to:**
 
@@ -71,15 +71,15 @@ If you're working remotely, do these first:
 
 ## Part 1: Find the transit yourself
 
-1. **Watch the demonstration.** Watch the live demo if you're on campus, or the walkthrough recording on Echo360 (on Canvas) if you're remote.
+1. Watch for background information session if you're on campus, or the recording on Echo360 (on Canvas) if you're remote.
 
-2. **Load the images.** In AstroImageJ, select ***File***, ***Import***, ***Image Sequence***. Select the folder containing your ten images (Mac), or any one of the images inside it (Windows), and click ***Open***. In the window that appears, type `wasp2` in ***File name contains*** so only the ten images are loaded. If your computer is short of memory, also tick ***Use virtual stack***. Click ***OK***.
+2. In AstroImageJ, select ***File***, ***Import***, ***Image Sequence***. Select the folder containing your ten images (Mac), or any one of the images inside it (Windows), and click ***Open***. In the window that appears, type `wasp2` in ***File name contains*** so only the ten images are loaded. If your computer is short of memory, also tick ***Use virtual stack***. Click ***OK***.
 
-3. **Look through the images.** If the image looks blank or washed out, click the ***Auto brightness and contrast*** button in the image window's toolbar. Use the left and right arrow keys to step through the images, watching the counter (1/10, 2/10, and so on) at the top left. You'll notice the stars shift slightly between images, because the telescope didn't point at exactly the same spot each time.
+3. Look through the images, and if they look blank or washed out, click the ***Auto brightness and contrast*** button in the image window's toolbar. Use the left and right arrow keys to step through the images, watching the counter (1/10, 2/10, and so on) at the top left. You'll notice the stars shift slightly between images, because the telescope didn't point at exactly the same spot each time.
 
-4. **Line up the images.** Select ***Process***, ***Align stack using WCS***. Check that all slices are selected (first slice 1, last slice 10), tick ***Use only WCS headers for alignment***, leave everything else as it is, and click ***OK***. Step through the images again: the stars should now stay still. (The WCS is information stored in each image that links its pixels to positions on the sky.)
+4. Line up the images by selecting ***Process***, ***Align stack using WCS***. Check that all slices are selected (first slice 1, last slice 10), tick ***Use only WCS headers for alignment***, leave everything else as it is, and click ***OK***. Step through the images again: the stars should now stay still. (The WCS is information stored in each image that links its pixels to positions on the sky.)
 
-5. **Find WASP-2 and the reference stars.** Use the finder chart below to find WASP-2 and three suitable reference stars, A, B and C, in your images.
+5. Use the finder chart below to find WASP-2 and three suitable reference stars, A, B and C, in your images.
 
    <img src="images/finder_chart.png" alt="The first of the ten telescope images, with WASP-2 circled in red in the lower left and three reference stars circled in blue: A in the lower right, B in the upper left and C in the upper middle." width="600" />
 
