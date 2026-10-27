@@ -23,7 +23,7 @@ This guide is for anyone who looks after the PVB220 AstroLabs: fixing a typo, ch
 
 ```
 astrolabs/
-├── C1/                   # instructions, images and proforma for each software lab (C1 to C6)
+├── C1/, C2/              # instructions, images and proforma for each software lab (C1 to C6)
 ├── AstroLabC7.ipynb      # one notebook per Python lab (C7 to C11)
 ├── AstroLabC8.ipynb
 ├── astrolabs.py          # shared helper module used by every notebook
@@ -35,7 +35,8 @@ astrolabs/
 │   └── MAINTAINING.md    # this guide
 ├── tools/
 │   ├── test_notebooks.py # runs every notebook and reports errors
-│   └── make_c1_data.py   # rebuilds the C1 data files
+│   ├── make_c1_data.py   # rebuilds the C1 data files
+│   └── make_c2_data.py   # rebuilds the C2 data files and figures
 ├── Images/               # logo used in the README and notebooks
 ├── README.md             # the public front page
 └── requirements.txt      # Python packages the labs need
@@ -187,6 +188,8 @@ Colab can save directly back to GitHub: *File > Save a copy in GitHub*, choose `
 | --- | --- | --- |
 | `C1/carina_jwst_*.fits.fz` | JWST NIRCam mosaics of NGC 3324 (program 2731, `jw02731-o001_t017_nircam_clear-*_i2d.fits`), MAST | Made with `tools/make_c1_data.py`: the same 264″ × 157″ patch of sky from each filter at full resolution, saved with RICE tile compression (quantize level 16). About 83 MB in total instead of about 12 GB for the full mosaics |
 | `C1/ngc7293_*.fits.fz` | Spitzer Enhanced Imaging Products (IRAC 3.6 μm and MIPS 24 μm mosaics, AOR 40045030) and Herschel High Level Images (SPIRE 250 μm, obsid 1342256744), IRSA | Made with `tools/make_c1_data.py`: the same 26′ × 26′ patch of sky centred on NGC 7293 from each, at native resolution, RICE compressed |
+| `C2/wasp2_lco_images.zip` | Las Cumbres Observatory archive: ten 15 s Faulkes Telescope North images of WASP-2, 2008-10-05 UT (proposal `johnjohn`) | Unchanged, but renamed in time order: `wasp2_lco_01.fits` to `_10.fits` were `l_e_20081004_494_6_1_1.fits`, `_494_16_`, `_494_26_`, `_494_51_`, `_494_76_`, `_494_101_`, `_494_126_`, `_495_24_`, `_495_49_` and `_495_74_`. The transit runs from about image 4 to image 8, with a depth of about 1.8% |
+| `C2/wasp2_tess_sector81.csv` | TESS 2-minute light curve of WASP-2 (TIC 374530847, Sector 81), MAST | Made with `tools/make_c2_data.py`: `PDCSAP_FLUX` with `QUALITY = 0`, divided by its median; time in days since the first measurement. The same script draws the TESS plots, finder chart and transit diagram in `C2/images/`. Period 2.152 days, depth about 1.6%, duration about 1.7 hours |
 | `C7/batse_grbs.csv` | BATSE 4B catalogue, HEASARC table `batsegrb` | Kept name, RA, Dec and Galactic coordinates |
 | `C7/nearby_galaxies.csv` | 2MASS Redshift Survey, VizieR `J/ApJS/199/26/table3` | Kept Galactic coordinates and cz for cz > 0; distance = cz / 70 km/s/Mpc |
 | `C7/galaxy_grz.fits` | DESI Legacy Surveys DR10 cutout service | NGC 1365, 800 × 800 pixels at 1″/pixel, g, r, z bands |
