@@ -17,9 +17,9 @@ Companion repositories: [Astro_Demos](https://github.com/mjcowley/astro_demos) (
 | --- | :-: | --- | --- | --- |
 | C1 | 2 | The celestial sphere and orbital mechanics (in development for 2027) | To be confirmed | [C1 page](C1/README.md) |
 | C2 | 4 | Stellar spectra (in development for 2027) | To be confirmed | [C2 page](C2/README.md) |
-| C3 | 6 | Composing RGB images from telescope data: JWST's view of the Carina Nebula, then your own choice of object at very different wavelengths | SAOImageDS9 | [C1 page](C1/README.md) |
-| C4 | 8 | Studying stellar evolution with Gaia: querying the Gaia archive for the stars within 50 parsecs, building and cleaning an H–R diagram, and finding the Hyades cluster from its stars' motions to see how a cluster's H–R diagram reveals its age | TOPCAT | [C3 page](C3/README.md) |
-| C5 | 10 | Hunting exoplanets: measuring the transit of WASP-2b with differential photometry, then comparing it with the same planet seen by NASA's TESS space telescope | AstroImageJ | [C2 page](C2/README.md) |
+| C3 | 6 | Composing RGB images from telescope data: JWST's view of the Carina Nebula, then your own choice of object at very different wavelengths | SAOImageDS9 | [C3 page](C3/README.md) |
+| C4 | 8 | Studying stellar evolution with Gaia: querying the Gaia archive for the stars within 50 parsecs, building and cleaning an H–R diagram, and finding the Hyades cluster from its stars' motions to see how a cluster's H–R diagram reveals its age | TOPCAT | [C4 page](C4/README.md) |
+| C5 | 10 | Hunting exoplanets: measuring the transit of WASP-2b with differential photometry, then comparing it with the same planet seen by NASA's TESS space telescope | AstroImageJ | [C5 page](C5/README.md) |
 
 Each lab page links to its data files and the proforma. Proformas are submitted on Canvas.
 
