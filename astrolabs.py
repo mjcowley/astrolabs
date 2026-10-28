@@ -58,10 +58,13 @@ def get_data(path):
     Return the local path to a data file, downloading it if needed.
 
     `path` is relative to the repository's data/ folder, e.g. "C7/batse_grbs.csv".
+    In a copy of the whole repository, notebooks sit one folder down (C7/, C8/, ...),
+    so the repository's own data/ folder is checked there too.
     """
     local = os.path.join("data", path)
-    if os.path.exists(local):
-        return local
+    for candidate in (local, os.path.join("..", "data", path)):
+        if os.path.exists(candidate):
+            return candidate
     os.makedirs(os.path.dirname(local), exist_ok=True)
     url = REPO_URL + "data/" + path
     print(f"⬇️  Downloading {path} ...")
@@ -70,7 +73,7 @@ def get_data(path):
     except Exception as err:
         raise RuntimeError(
             f"Couldn't download {path}. Check your internet connection, or "
-            f"download it from Canvas and put it in a folder called data/"
+            f"download it from github.com/mjcowley/astrolabs and put it in a folder called data/"
             f"{os.path.dirname(path)} next to this notebook."
         ) from err
     return local

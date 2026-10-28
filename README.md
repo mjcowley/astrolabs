@@ -24,11 +24,11 @@ Each lab page links to its data files and the proforma. Proformas are submitted 
 
 | Lab | Week | Topic | Notebook |
 | --- | :-: | --- | --- |
-| C7 | 2 | Your Python Toolkit for the Universe: distance scales, lookback time, the cosmological principle, Olbers' paradox and your first FITS image | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/AstroLabC7.ipynb) |
-| C8 | 4 | Running the Clock Backwards: Planck units, the scale factor and redshift, the CMB spectrum, the cosmic thermometer and JWST galaxy redshifts | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/AstroLabC8.ipynb) |
-| C9 | 6 | Galaxies and Their Monsters: the Hubble tuning fork, galaxy spectra and colours, the UVJ diagram, the quasar 3C 273 and its Eddington limit, broad and narrow lines, and X-ray AGN in the Chandra Deep Field South | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/AstroLabC9.ipynb) |
-| C10 | 8 | Gravity's Fingerprints: bending starlight and Einstein rings, dark matter in the rotation curve of NGC 2403, and finding, locating and weighing the gravitational wave GW150914 in real LIGO data | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/AstroLabC10.ipynb) |
-| C11 | 10 | Surveying the Universe: the Hubble constant and dark energy from Pantheon+ supernovae, the Hubble tension, galaxy scaling relations in ZFOURGE, and cross-matching with ZFIRE to test photometric redshifts, find a protocluster at z = 2.1 and diagnose galaxies with emission lines | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/AstroLabC11.ipynb) |
+| C7 | 2 | Your Python Toolkit for the Universe: distance scales, lookback time, the cosmological principle, Olbers' paradox and your first FITS image | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/C7/AstroLabC7.ipynb) |
+| C8 | 4 | Running the Clock Backwards: Planck units, the scale factor and redshift, the CMB spectrum, the cosmic thermometer and JWST galaxy redshifts | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/C8/AstroLabC8.ipynb) |
+| C9 | 6 | Galaxies and Their Monsters: the Hubble tuning fork, galaxy spectra and colours, the UVJ diagram, the quasar 3C 273 and its Eddington limit, broad and narrow lines, and X-ray AGN in the Chandra Deep Field South | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/C9/AstroLabC9.ipynb) |
+| C10 | 8 | Gravity's Fingerprints: bending starlight and Einstein rings, dark matter in the rotation curve of NGC 2403, and finding, locating and weighing the gravitational wave GW150914 in real LIGO data | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/C10/AstroLabC10.ipynb) |
+| C11 | 10 | Surveying the Universe: the Hubble constant and dark energy from Pantheon+ supernovae, the Hubble tension, galaxy scaling relations in ZFOURGE, and cross-matching with ZFIRE to test photometric redshifts, find a protocluster at z = 2.1 and diagnose galaxies with emission lines | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/C11/AstroLabC11.ipynb) |
 
 ## Session format
 
@@ -53,7 +53,7 @@ The first cell of each notebook downloads `astrolabs.py`, a small helper module 
 
 **Google Colab (recommended):** click the *Open in Colab* badge above, then use **File > Save a copy in Drive** to keep your changes. Everything you need is already installed.
 
-**QUT JupyterHub or a local install:** download the notebook (and `astrolabs.py`) into the same folder and open it. For a local install, use Python 3.10 or later and install the requirements:
+**QUT JupyterHub or a local install:** download the notebook from its lab folder (for example `C8/AstroLabC8.ipynb`) and open it. The first cell downloads `astrolabs.py` for you. For a local install, use Python 3.10 or later and install the requirements:
 
 ```bash
 pip install -r requirements.txt
@@ -65,12 +65,8 @@ Data files are downloaded automatically into a `data/` folder the first time a n
 
 ```
 astrolabs/
-├── C1/                   # instructions, images and proforma for each software lab
-├── AstroLabC7.ipynb      # one notebook per Python lab
-├── AstroLabC8.ipynb
-├── AstroLabC9.ipynb
-├── AstroLabC10.ipynb
-├── AstroLabC11.ipynb
+├── C1/ ... C6/           # software labs: instructions, images and proforma
+├── C7/ ... C11/          # Python labs: one notebook each (e.g. C7/AstroLabC7.ipynb)
 ├── astrolabs.py          # shared helper functions and widgets
 ├── canvas/               # HTML for each lab's Canvas page
 ├── data/C1/ ... data/C11/ # data files for each lab
