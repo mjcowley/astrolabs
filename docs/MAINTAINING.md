@@ -35,7 +35,8 @@ astrolabs/
 ├── tools/
 │   ├── test_notebooks.py # runs every notebook and reports errors
 │   ├── make_c1_data.py   # rebuilds the C1 data files
-│   └── make_c2_data.py   # rebuilds the C2 data files and figures
+│   ├── make_c2_data.py   # rebuilds the C2 data files and figures
+│   └── make_c3_data.py   # makes the C3 Gaia files from the query result
 ├── Images/               # logo used in the README and notebooks
 ├── README.md             # the public front page
 └── requirements.txt      # Python packages the labs need
@@ -189,6 +190,7 @@ Colab can save directly back to GitHub: *File > Save a copy in GitHub*, choose `
 | `C1/ngc7293_*.fits.fz` | Spitzer Enhanced Imaging Products (IRAC 3.6 μm and MIPS 24 μm mosaics, AOR 40045030) and Herschel High Level Images (SPIRE 250 μm, obsid 1342256744), IRSA | Made with `tools/make_c1_data.py`: the same 26′ × 26′ patch of sky centred on NGC 7293 from each, at native resolution, RICE compressed |
 | `C2/wasp2_lco_images.zip` | Las Cumbres Observatory archive: ten 15 s Faulkes Telescope North images of WASP-2, 2008-10-05 UT (proposal `johnjohn`) | Unchanged, but renamed in time order: `wasp2_lco_01.fits` to `_10.fits` were `l_e_20081004_494_6_1_1.fits`, `_494_16_`, `_494_26_`, `_494_51_`, `_494_76_`, `_494_101_`, `_494_126_`, `_495_24_`, `_495_49_` and `_495_74_`. The transit runs from about image 4 to image 8, with a depth of about 1.8% |
 | `C2/wasp2_tess_sector81.csv` | TESS 2-minute light curve of WASP-2 (TIC 374530847, Sector 81), MAST | Made with `tools/make_c2_data.py`: `PDCSAP_FLUX` with `QUALITY = 0`, divided by its median; time in days since the first measurement. The same script draws the TESS plots and transit diagram in `C2/images/`. The AstroImageJ screenshots in `C2/images/` were supplied by the unit coordinator. Period 2.152 days, depth about 1.6%, duration about 1.7 hours |
+| `C3/gaia_dr3_*.fits` | Gaia DR3 (`gaiadr3.gaia_source`), queried in TOPCAT's TAP window with Max Rows raised to 2,000,000: parallax > 10 with parallax, BP and RP flux S/N > 10 (306,517 stars, the full query is in `tools/make_c3_data.py`) | Made with `tools/make_c3_data.py`: the full 100 pc table, the 50 pc subset (parallax > 20, 39,911 stars, matching the query students run) and the Taurus patch around the Hyades (RA 50 to 85°, Dec 0 to 30°, 7,308 stars). The Gaia archive limits anonymous queries to 50,000 rows unless Max Rows is set explicitly. About 71% of stars pass `ruwe < 1.4` and the excess-factor polygon. The Hyades clump is at pmra ≈ +105, pmdec ≈ −28 mas/yr, parallax ≈ 21 mas |
 | `C7/batse_grbs.csv` | BATSE 4B catalogue, HEASARC table `batsegrb` | Kept name, RA, Dec and Galactic coordinates |
 | `C7/nearby_galaxies.csv` | 2MASS Redshift Survey, VizieR `J/ApJS/199/26/table3` | Kept Galactic coordinates and cz for cz > 0; distance = cz / 70 km/s/Mpc |
 | `C7/galaxy_grz.fits` | DESI Legacy Surveys DR10 cutout service | NGC 1365, 800 × 800 pixels at 1″/pixel, g, r, z bands |
