@@ -1,9 +1,9 @@
 """
-Make the data files and figures used in AstroLab C2.
+Make the data files and figures used in AstroLab C5.
 
 Part 1 uses ten Faulkes Telescope North images of WASP-2 from the Las Cumbres
 Observatory (LCO) archive, taken on 2008-10-05 UT and stored in
-data/C2/wasp2_lco_images.zip. They were renamed in time order (see
+data/C5/wasp2_lco_images.zip. They were renamed in time order (see
 docs/MAINTAINING.md for the original LCO file names).
 
 Part 2 uses the TESS 2-minute light curve of WASP-2 (TIC 374530847) from
@@ -15,7 +15,7 @@ It also draws the transit diagram used in the introduction.
 Usage (from the repository root):
 
     pip install astropy matplotlib numpy
-    python tools/make_c2_data.py
+    python tools/make_c5_data.py
 """
 
 import io
@@ -28,8 +28,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from astropy.io import fits
 
-DATA = os.path.join("data", "C2")
-IMAGES = os.path.join("C2", "images")
+DATA = os.path.join("data", "C5")
+IMAGES = os.path.join("C5", "images")
 TESS_FILE = "tess2024196212429-s0081-0000000374530847-0276-s_lc.fits"
 TESS_URL = "https://mast.stsci.edu/api/v0.1/Download/file?uri=mast:TESS/product/" + TESS_FILE
 
