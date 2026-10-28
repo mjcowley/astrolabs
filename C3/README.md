@@ -125,11 +125,7 @@ If you're working remotely, do these first:
    Units:       mag
    ```
 
-7. Plot the H–R diagram by clicking the ***Plane Plot*** button <img src="images/icon_plot.png" alt="Plane Plot button" height="22" />, setting ***X*** to `bp_rp` and ***Y*** to `g_abs`. The x-axis is now the star's colour, which tells us its temperature. Hot, blue stars have small or negative BP−RP values and cool, red stars have large ones, because a star's light shifts towards the blue as it gets hotter, as below.
-
-   <img src="images/planck.png" alt="Nine panels showing the light from stars of temperatures from 3,000 K to 15,000 K, each overlaid on Gaia's blue (BP) and red (RP) filters. As the temperature rises, the peak of the curve moves from beyond the red filter to well to the left of the blue filter." width="800" />
-
-   *The light given off by stars of different temperatures (blue curves), compared with Gaia's blue (BP) and red (RP) filters. A hotter star gives off more of its light in the blue filter, so its BP−RP colour is smaller.*
+7. Plot the H–R diagram by clicking the ***Plane Plot*** button <img src="images/icon_plot.png" alt="Plane Plot button" height="22" />, setting ***X*** to `bp_rp` and ***Y*** to `g_abs`. The x-axis is now the star's colour, which tells us its temperature. Hot, blue stars have small or negative BP−RP values and cool, red stars have large ones, because a star's light shifts towards the blue as it gets hotter. To see why, open the [blackbody demo](https://mjcowley.github.io/astro_demos/blackbody/?filters=gaia), which shows the light given off by a star of any temperature over Gaia's BP and RP filters. Drag the temperature slider from cool to hot and watch how the light moves between the two filters, and how the BP−RP colour changes.
 
 8. Turn the diagram the right way up by clicking the ***Axes*** control <img src="images/icon_axes.png" alt="Axes control" height="22" /> in the plot window, then ticking ***Y Flip*** in the ***Coords*** tab. The magnitude scale runs backwards, with brighter stars having smaller numbers, so flipping the axis puts the brightest stars at the top, as astronomers always draw it.
 
