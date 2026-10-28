@@ -221,3 +221,7 @@ __marimo__/
 
 # macOS
 .DS_Store
+
+# Copies the notebooks make of the helper and data when run from a lab folder
+C*/astrolabs.py
+C*/data/

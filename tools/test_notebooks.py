@@ -5,10 +5,11 @@ Usage (from the repository root):
 
     pip install -r requirements.txt nbformat nbclient ipykernel
     python tools/test_notebooks.py                 # test all notebooks
-    python tools/test_notebooks.py AstroLabC8.ipynb   # test one notebook
+    python tools/test_notebooks.py C8/AstroLabC8.ipynb   # test one notebook
 
-Each notebook runs in a temporary copy of the repository, so nothing in your
-working folder is changed and no outputs are saved into the notebooks.
+Each notebook runs in a temporary folder, next to copies of astrolabs.py and
+data/, so nothing in your working folder is changed and no outputs are saved
+into the notebooks.
 Interactive widgets run once with their default slider values (see WIDGET_PATCH).
 """
 
@@ -60,16 +61,13 @@ def is_expected(error):
 
 
 def test(notebook):
+    name = os.path.basename(notebook)
     with tempfile.TemporaryDirectory() as tmp:
-        for item in ["astrolabs.py", "data", notebook]:
-            src = os.path.join(ROOT, item)
-            dst = os.path.join(tmp, item)
-            if os.path.isdir(src):
-                shutil.copytree(src, dst)
-            else:
-                shutil.copy(src, dst)
+        shutil.copy(os.path.join(ROOT, "astrolabs.py"), tmp)
+        shutil.copytree(os.path.join(ROOT, "data"), os.path.join(tmp, "data"))
+        shutil.copy(os.path.join(ROOT, notebook), os.path.join(tmp, name))
 
-        nb = nbformat.read(os.path.join(tmp, notebook), as_version=4)
+        nb = nbformat.read(os.path.join(tmp, name), as_version=4)
         nb.cells.insert(0, nbformat.v4.new_code_cell(WIDGET_PATCH))
         client = NotebookClient(nb, timeout=300, kernel_name="python3",
                                 allow_errors=True, resources={"metadata": {"path": tmp}})
@@ -87,7 +85,7 @@ def test(notebook):
 
 
 def main():
-    notebooks = sys.argv[1:] or sorted(os.path.basename(p) for p in glob.glob(os.path.join(ROOT, "AstroLab*.ipynb")))
+    notebooks = sys.argv[1:] or sorted(os.path.relpath(p, ROOT) for p in glob.glob(os.path.join(ROOT, "C*", "AstroLab*.ipynb")))
     all_ok = True
     for notebook in notebooks:
         print(f"Testing {notebook} ...", flush=True)

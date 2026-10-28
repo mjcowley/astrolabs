@@ -23,9 +23,8 @@ This guide is for anyone who looks after the PVB220 AstroLabs: fixing a typo, ch
 
 ```
 astrolabs/
-├── C1/, C2/              # instructions, images and proforma for each software lab (C1 to C6)
-├── AstroLabC7.ipynb      # one notebook per Python lab (C7 to C11)
-├── AstroLabC8.ipynb
+├── C1/ ... C6/           # software labs: instructions (README.md), images and proforma
+├── C7/ ... C11/          # Python labs: one notebook each (e.g. C7/AstroLabC7.ipynb)
 ├── astrolabs.py          # shared helper module used by every notebook
 ├── canvas/               # the HTML for each lab's Canvas page
 ├── data/
@@ -45,11 +44,11 @@ astrolabs/
 When a student opens a lab in Google Colab or JupyterHub, this is what happens:
 
 1. **The notebook opens.** In Colab it's loaded straight from GitHub via the *Open in Colab* badge.
-2. **The setup cell runs.** If `astrolabs.py` isn't already sitting next to the notebook, it's downloaded from
-   `https://raw.githubusercontent.com/mjcowley/astrolabs/main/astrolabs.py`.
-3. **Data is fetched when needed.** Each notebook calls `al.get_data("C8/some_file.csv")`. That looks for `data/C8/some_file.csv` next to the notebook first, and if it isn't there, downloads it from the same GitHub address into a local `data/` folder.
+2. **The setup cell runs.** It downloads the latest `astrolabs.py` from
+   `https://raw.githubusercontent.com/mjcowley/astrolabs/main/astrolabs.py` into the folder the notebook is running in (keeping any existing copy if the student is offline).
+3. **Data is fetched when needed.** Each notebook calls `al.get_data("C8/some_file.csv")`. That looks for `data/C8/some_file.csv` next to the notebook (or in the repository's own `data/` folder, one level up, when the whole repository has been downloaded), and if it isn't there, downloads it from the same GitHub address into a local `data/` folder.
 
-So the notebooks, the helper and the data all come from the **`main` branch on GitHub**. That's what makes the next section so important.
+So the notebooks, the helper and the data all come from the **`main` branch on GitHub**. The notebooks use full web addresses for the helper, the data and the logo, so they work wherever they sit. **Don't move or rename `astrolabs.py`, `data/` or `Images/`**: copies of the notebooks that students have saved in their own Google Drive rely on those addresses. That's what makes the next section so important.
 
 ## 2. The golden rule: `main` is live
 
@@ -215,7 +214,7 @@ Colab can save directly back to GitHub: *File > Save a copy in GitHub*, choose `
 
 ```bash
 python tools/test_notebooks.py                   # every lab
-python tools/test_notebooks.py AstroLabC8.ipynb  # just one
+python tools/test_notebooks.py C8/AstroLabC8.ipynb  # just one
 ```
 
 The script runs each notebook in a temporary folder and lists any cell that fails. It tests your **local** `astrolabs.py`: the setup cell's download from GitHub is skipped during tests, so you can test helper changes before they reach `main`. It knows about the deliberate error in C7's "Fix the broken cell" activity and ignores it. If you add another deliberate error, add it to `EXPECTED_ERRORS` at the top of the script.
@@ -228,10 +227,10 @@ Finally, after merging, open the lab from the README's *Open in Colab* badge and
 
 1. **Read the lecture slides for that week** and build the lab around them: the lab should reuse the lecture's examples, language and numbers.
 2. **Plan around one hour** of hands-on time, in five or six parts of about ten minutes each, plus an optional stretch activity.
-3. **Start from an existing notebook.** Copy `AstroLabC8.ipynb` to `AstroLabC<n>.ipynb`, keep the header, setup cell and closing sections, and replace the middle.
+3. **Start from an existing notebook.** Copy `C8/AstroLabC8.ipynb` to a new folder as `C<n>/AstroLabC<n>.ipynb`, keep the header, setup cell and closing sections, and replace the middle.
 4. **Put new widgets in a new block** at the end of `astrolabs.py`, with a banner comment naming the lab.
 5. **Add data** under `data/C<n>/` (section 7).
-6. **Add a row to the README's lab table** with an *Open in Colab* badge (copy the C8 row and change the file name), and add the data credits.
+6. **Add a row to the README's lab table** with an *Open in Colab* badge (copy the C8 row and change the folder and file name), and add the data credits.
 7. **Write the Canvas questions** (section 10).
 8. **Test** (section 8), then open a pull request.
 
