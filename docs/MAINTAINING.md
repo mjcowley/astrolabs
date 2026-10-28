@@ -23,20 +23,20 @@ This guide is for anyone who looks after the PVB220 AstroLabs: fixing a typo, ch
 
 ```
 astrolabs/
-├── C1/ ... C6/           # software labs: instructions (README.md), images and proforma
+├── C1/ ... C5/           # software labs: instructions (README.md), images and proforma
 ├── C7/ ... C11/          # Python labs: one notebook each (e.g. C7/AstroLabC7.ipynb)
 ├── astrolabs.py          # shared helper module used by every notebook
 ├── canvas/               # the HTML for each lab's Canvas page
 ├── data/
-│   ├── C1/               # data files for each lab
+│   ├── C3/               # data files for each lab
 │   └── C7/
 ├── docs/
 │   └── MAINTAINING.md    # this guide
 ├── tools/
 │   ├── test_notebooks.py # runs every notebook and reports errors
-│   ├── make_c1_data.py   # rebuilds the C1 data files
-│   ├── make_c2_data.py   # rebuilds the C2 data files and figures
-│   └── make_c3_data.py   # makes the C3 Gaia files from the query result
+│   ├── make_c3_data.py   # rebuilds the C3 data files
+│   ├── make_c4_data.py   # makes the C4 Gaia files from the query result
+│   └── make_c5_data.py   # rebuilds the C5 data files and figures
 ├── Images/               # logo used in the README and notebooks
 ├── README.md             # the public front page
 └── requirements.txt      # Python packages the labs need
@@ -176,7 +176,7 @@ Colab can save directly back to GitHub: *File > Save a copy in GitHub*, choose `
 ## 7. Adding or updating data
 
 * Put each lab's files in `data/C<lab>/` and load them with `al.get_data("C<lab>/filename")`.
-* **Keep files small.** Students download them every session, sometimes on slow connections. Aim for under about 10 MB per notebook lab. GitHub refuses any file over 100 MB and warns above 50 MB, so keep every file under 50 MB (C1's JWST images are cut out and compressed for this reason). Trim catalogues to the columns and rows the lab uses, and shrink images and maps (C8's CMB maps are stored as 16-bit integers with a scale factor to halve their size).
+* **Keep files small.** Students download them every session, sometimes on slow connections. Aim for under about 10 MB per notebook lab. GitHub refuses any file over 100 MB and warns above 50 MB, so keep every file under 50 MB (C3's JWST images are cut out and compressed for this reason). Trim catalogues to the columns and rows the lab uses, and shrink images and maps (C8's CMB maps are stored as 16-bit integers with a scale factor to halve their size).
 * **Prefer simple formats:** CSV for tables, FITS for images and maps (also good practice for students, since FITS is the astronomy standard).
 * **Never rename or delete a file** a notebook uses (section 2). To replace data, add a new file name and update the notebook.
 * **Credit every data source** in the notebook's credits section and the README's *Data credits* section, with the reference paper and archive.
@@ -186,11 +186,11 @@ Colab can save directly back to GitHub: *File > Save a copy in GitHub*, choose `
 
 | File | Source | Processing |
 | --- | --- | --- |
-| `C1/carina_jwst_*.fits.fz` | JWST NIRCam mosaics of NGC 3324 (program 2731, `jw02731-o001_t017_nircam_clear-*_i2d.fits`), MAST | Made with `tools/make_c1_data.py`: the same 264″ × 157″ patch of sky from each filter at full resolution, saved with RICE tile compression (quantize level 16). About 83 MB in total instead of about 12 GB for the full mosaics |
-| `C1/ngc7293_*.fits.fz` | Spitzer Enhanced Imaging Products (IRAC 3.6 μm and MIPS 24 μm mosaics, AOR 40045030) and Herschel High Level Images (SPIRE 250 μm, obsid 1342256744), IRSA | Made with `tools/make_c1_data.py`: the same 26′ × 26′ patch of sky centred on NGC 7293 from each, at native resolution, RICE compressed |
-| `C2/wasp2_lco_images.zip` | Las Cumbres Observatory archive: ten 15 s Faulkes Telescope North images of WASP-2, 2008-10-05 UT (proposal `johnjohn`) | Unchanged, but renamed in time order: `wasp2_lco_01.fits` to `_10.fits` were `l_e_20081004_494_6_1_1.fits`, `_494_16_`, `_494_26_`, `_494_51_`, `_494_76_`, `_494_101_`, `_494_126_`, `_495_24_`, `_495_49_` and `_495_74_`. The transit runs from about image 4 to image 8, with a depth of about 1.8% |
-| `C2/wasp2_tess_sector81.csv` | TESS 2-minute light curve of WASP-2 (TIC 374530847, Sector 81), MAST | Made with `tools/make_c2_data.py`: `PDCSAP_FLUX` with `QUALITY = 0`, divided by its median; time in days since the first measurement. The same script draws the TESS plots and transit diagram in `C2/images/`. The AstroImageJ screenshots in `C2/images/` were supplied by the unit coordinator. Period 2.152 days, depth about 1.6%, duration about 1.7 hours |
-| `C3/gaia_dr3_*.fits` | Gaia DR3 (`gaiadr3.gaia_source`), queried in TOPCAT's TAP window with Max Rows raised to 2,000,000: parallax > 10 with parallax, BP and RP flux S/N > 10 (306,517 stars, the full query is in `tools/make_c3_data.py`) | Made with `tools/make_c3_data.py`: the full 100 pc table, the 50 pc subset (parallax > 20, 39,911 stars, matching the query students run) and the Taurus patch around the Hyades (RA 50 to 85°, Dec 0 to 30°, 7,308 stars). The Gaia archive limits anonymous queries to 50,000 rows unless Max Rows is set explicitly. About 71% of stars pass `ruwe < 1.4` and the excess-factor polygon. The Hyades clump is at pmra ≈ +105, pmdec ≈ −28 mas/yr, parallax ≈ 21 mas |
+| `C3/carina_jwst_*.fits.fz` | JWST NIRCam mosaics of NGC 3324 (program 2731, `jw02731-o001_t017_nircam_clear-*_i2d.fits`), MAST | Made with `tools/make_c3_data.py`: the same 264″ × 157″ patch of sky from each filter at full resolution, saved with RICE tile compression (quantize level 16). About 83 MB in total instead of about 12 GB for the full mosaics |
+| `C3/ngc7293_*.fits.fz` | Spitzer Enhanced Imaging Products (IRAC 3.6 μm and MIPS 24 μm mosaics, AOR 40045030) and Herschel High Level Images (SPIRE 250 μm, obsid 1342256744), IRSA | Made with `tools/make_c3_data.py`: the same 26′ × 26′ patch of sky centred on NGC 7293 from each, at native resolution, RICE compressed |
+| `C4/gaia_dr3_*.fits` | Gaia DR3 (`gaiadr3.gaia_source`), queried in TOPCAT's TAP window with Max Rows raised to 2,000,000: parallax > 10 with parallax, BP and RP flux S/N > 10 (306,517 stars, the full query is in `tools/make_c4_data.py`) | Made with `tools/make_c4_data.py`: the full 100 pc table, the 50 pc subset (parallax > 20, 39,911 stars, matching the query students run) and the Taurus patch around the Hyades (RA 50 to 85°, Dec 0 to 30°, 7,308 stars). The Gaia archive limits anonymous queries to 50,000 rows unless Max Rows is set explicitly. About 71% of stars pass `ruwe < 1.4` and the excess-factor polygon. The Hyades clump is at pmra ≈ +105, pmdec ≈ −28 mas/yr, parallax ≈ 21 mas |
+| `C5/wasp2_lco_images.zip` | Las Cumbres Observatory archive: ten 15 s Faulkes Telescope North images of WASP-2, 2008-10-05 UT (proposal `johnjohn`) | Unchanged, but renamed in time order: `wasp2_lco_01.fits` to `_10.fits` were `l_e_20081004_494_6_1_1.fits`, `_494_16_`, `_494_26_`, `_494_51_`, `_494_76_`, `_494_101_`, `_494_126_`, `_495_24_`, `_495_49_` and `_495_74_`. The transit runs from about image 4 to image 8, with a depth of about 1.8% |
+| `C5/wasp2_tess_sector81.csv` | TESS 2-minute light curve of WASP-2 (TIC 374530847, Sector 81), MAST | Made with `tools/make_c5_data.py`: `PDCSAP_FLUX` with `QUALITY = 0`, divided by its median; time in days since the first measurement. The same script draws the TESS plots and transit diagram in `C5/images/`. The AstroImageJ screenshots in `C5/images/` were supplied by the unit coordinator. Period 2.152 days, depth about 1.6%, duration about 1.7 hours |
 | `C7/batse_grbs.csv` | BATSE 4B catalogue, HEASARC table `batsegrb` | Kept name, RA, Dec and Galactic coordinates |
 | `C7/nearby_galaxies.csv` | 2MASS Redshift Survey, VizieR `J/ApJS/199/26/table3` | Kept Galactic coordinates and cz for cz > 0; distance = cz / 70 km/s/Mpc |
 | `C7/galaxy_grz.fits` | DESI Legacy Surveys DR10 cutout service | NGC 1365, 800 × 800 pixels at 1″/pixel, g, r, z bands |
@@ -244,7 +244,7 @@ Each lab should practise one new Python skill on top of the earlier labs (C7: va
 
 Each lab has a short Canvas page with a banner, *Start here* buttons linking to the lab on GitHub, the key facts, and how to complete it on campus or remotely. The step-by-step instructions and data live on GitHub, so the Canvas page rarely needs to change.
 
-The HTML for each page is kept in `canvas/` (for example `canvas/C1.html`), so a page can be restored if Canvas's editor garbles it or a course copy breaks it.
+The HTML for each page is kept in `canvas/` (for example `canvas/C3.html`), so a page can be restored if Canvas's editor garbles it or a course copy breaks it.
 
 * **Edit the copy in `canvas/` first,** then paste it into the Canvas page's HTML editor (*Edit*, then the `</>` button). If you change a page directly in Canvas, copy the HTML back here afterwards so the two don't drift apart.
 * **Keep the same layout for every lab:** banner, *Start here*, the four fact boxes, *Overview*, then *How to complete this AstroLab*. Boxes use a full border (`2px solid #003562` for *Start here*, `1px solid #9db3cb` for the others) rather than a coloured edge.

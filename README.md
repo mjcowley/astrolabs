@@ -4,20 +4,22 @@
 
 Astronomy practicals for **PVB210** and **PVB220 Cosmology** at QUT, developed by the QUT Astrophysics Research Group [(QARG)](https://research.qut.edu.au/qutastrophysics/).
 
-* **AstroLabs C1 to C6 (PVB210)** use free astronomy software (SAOImageDS9, AstroImageJ and TOPCAT). Each lab has its own page with step-by-step instructions and the data to download.
+* **AstroLabs C1 to C5 (PVB210)** use free astronomy software (SAOImageDS9, AstroImageJ and TOPCAT). Each lab has its own page with step-by-step instructions and the data to download.
 * **AstroLabs C7 to C11 (PVB220)** are Python notebooks that run in Google Colab or QUT's JupyterHub with no installation.
 
 The labs are designed for students across a university-wide minor, so **no programming experience is needed**. In the Python labs, every code cell is already written, and students run cells, change marked values and use sliders to explore real astronomical data. Students who want to learn Python can read and modify all of the code.
 
 Companion repositories: [Astro_Demos](https://github.com/mjcowley/astro_demos) (interactive browser demos) and [Python_Intro](https://github.com/mjcowley/Python_Intro) (a general introduction to Python for physics).
 
-## AstroLabs C1 to C6 (PVB210)
+## AstroLabs C1 to C5 (PVB210)
 
-| Lab | Topic | Software | Instructions |
-| --- | --- | --- | --- |
-| C1 | Composing RGB images from telescope data: JWST's view of the Carina Nebula, then your own choice of object at very different wavelengths | SAOImageDS9 | [C1 page](C1/README.md) |
-| C2 | Hunting exoplanets: measuring the transit of WASP-2b with differential photometry, then comparing it with the same planet seen by NASA's TESS space telescope | AstroImageJ | [C2 page](C2/README.md) |
-| C3 | Studying stellar evolution with Gaia: querying the Gaia archive for the stars within 50 parsecs, building and cleaning an H–R diagram, and finding the Hyades cluster from its stars' motions to see how a cluster's H–R diagram reveals its age | TOPCAT | [C3 page](C3/README.md) |
+| Lab | Week | Topic | Software | Instructions |
+| --- | :-: | --- | --- | --- |
+| C1 | 2 | The celestial sphere and orbital mechanics (in development for 2027) | To be confirmed | [C1 page](C1/README.md) |
+| C2 | 4 | Stellar spectra (in development for 2027) | To be confirmed | [C2 page](C2/README.md) |
+| C3 | 6 | Composing RGB images from telescope data: JWST's view of the Carina Nebula, then your own choice of object at very different wavelengths | SAOImageDS9 | [C1 page](C1/README.md) |
+| C4 | 8 | Studying stellar evolution with Gaia: querying the Gaia archive for the stars within 50 parsecs, building and cleaning an H–R diagram, and finding the Hyades cluster from its stars' motions to see how a cluster's H–R diagram reveals its age | TOPCAT | [C3 page](C3/README.md) |
+| C5 | 10 | Hunting exoplanets: measuring the transit of WASP-2b with differential photometry, then comparing it with the same planet seen by NASA's TESS space telescope | AstroImageJ | [C2 page](C2/README.md) |
 
 Each lab page links to its data files and the proforma. Proformas are submitted on Canvas.
 
@@ -66,7 +68,7 @@ Data files are downloaded automatically into a `data/` folder the first time a n
 
 ```
 astrolabs/
-├── C1/ ... C6/           # software labs: instructions, images and proforma
+├── C1/ ... C5/           # software labs: instructions, images and proforma
 ├── C7/ ... C11/          # Python labs: one notebook each (e.g. C7/AstroLabC7.ipynb)
 ├── astrolabs.py          # shared helper functions and widgets
 ├── canvas/               # HTML for each lab's Canvas page
@@ -79,7 +81,7 @@ astrolabs/
 
 ## Data credits
 
-Each lab lists the sources and references for its data at the end. AstroLab C1 uses JWST NIRCam images of NGC 3324 from the JWST Early Release Observations (program 2731, MAST) and Spitzer and Herschel images of NGC 7293 from IRSA. AstroLab C2 uses Faulkes Telescope North images of WASP-2 from the Las Cumbres Observatory archive and the TESS light curve of WASP-2 from MAST. AstroLab C3 uses Gaia DR3 (ESA, Gaia Collaboration, Vallenari et al. 2023). AstroLab C7 uses the BATSE gamma-ray burst catalogue (NASA HEASARC), the 2MASS Redshift Survey (Huchra et al. 2012) and an image of NGC 1365 from the DESI Legacy Imaging Surveys DR10. AstroLab C8 uses the COBE FIRAS CMB spectrum (NASA LAMBDA), JWST NIRSpec spectra from JADES Data Release 4 (MAST), and CMB maps from Planck (NASA/IPAC IRSA) and WMAP (NASA LAMBDA). AstroLab C9 uses galaxy images from the DESI Legacy Imaging Surveys and SDSS, galaxy and AGN spectra from the Brown et al. (2014, 2019) atlases (MAST), the ZFOURGE survey (Straatman et al. 2016) with X-ray AGN matches from Cowley et al. (2016), and the Chandra Deep Field South 7 Ms catalogue (Luo et al. 2017). AstroLab C10 uses the SPARC rotation curve of NGC 2403 (Lelli et al. 2016) and LIGO, Virgo and KAGRA data and event catalogues from the Gravitational Wave Open Science Center. AstroLab C11 uses the Pantheon+ supernova compilation (Scolnic et al. 2022; Brout et al. 2022), the ZFOURGE COSMOS catalogue (Straatman et al. 2016) with UV + IR star formation rates (Tomczak et al. 2016) and HST sizes (van der Wel et al. 2014), and the ZFIRE COSMOS spectroscopic catalogue (Nanayakkara et al. 2016), all via VizieR or the Pantheon+ data release.
+Each lab lists the sources and references for its data at the end. AstroLab C3 uses JWST NIRCam images of NGC 3324 from the JWST Early Release Observations (program 2731, MAST) and Spitzer and Herschel images of NGC 7293 from IRSA. AstroLab C4 uses Gaia DR3 (ESA, Gaia Collaboration, Vallenari et al. 2023). AstroLab C5 uses Faulkes Telescope North images of WASP-2 from the Las Cumbres Observatory archive and the TESS light curve of WASP-2 from MAST. AstroLab C7 uses the BATSE gamma-ray burst catalogue (NASA HEASARC), the 2MASS Redshift Survey (Huchra et al. 2012) and an image of NGC 1365 from the DESI Legacy Imaging Surveys DR10. AstroLab C8 uses the COBE FIRAS CMB spectrum (NASA LAMBDA), JWST NIRSpec spectra from JADES Data Release 4 (MAST), and CMB maps from Planck (NASA/IPAC IRSA) and WMAP (NASA LAMBDA). AstroLab C9 uses galaxy images from the DESI Legacy Imaging Surveys and SDSS, galaxy and AGN spectra from the Brown et al. (2014, 2019) atlases (MAST), the ZFOURGE survey (Straatman et al. 2016) with X-ray AGN matches from Cowley et al. (2016), and the Chandra Deep Field South 7 Ms catalogue (Luo et al. 2017). AstroLab C10 uses the SPARC rotation curve of NGC 2403 (Lelli et al. 2016) and LIGO, Virgo and KAGRA data and event catalogues from the Gravitational Wave Open Science Center. AstroLab C11 uses the Pantheon+ supernova compilation (Scolnic et al. 2022; Brout et al. 2022), the ZFOURGE COSMOS catalogue (Straatman et al. 2016) with UV + IR star formation rates (Tomczak et al. 2016) and HST sizes (van der Wel et al. 2014), and the ZFIRE COSMOS spectroscopic catalogue (Nanayakkara et al. 2016), all via VizieR or the Pantheon+ data release.
 
 ## Contributing
 
