@@ -2,14 +2,14 @@
 
 <img src="Images/qarg_bw_dark.png" alt="QUT Logo" width="500" />
 
-Astronomy practicals for **PVB210** and **PVB220 Cosmology** at QUT, developed by the QUT Astrophysics Research Group [(QARG)](https://research.qut.edu.au/qutastrophysics/).
+Astronomy practicals for the [Astrophysics Minor](https://research.qut.edu.au/qutastrophysics/education/) at QUT, developed by the QUT Astrophysics Research Group [(QARG)](https://research.qut.edu.au/qutastrophysics/).
 
-* **AstroLabs C1 to C5 (PVB210)** use free astronomy software (SAOImageDS9, AstroImageJ and TOPCAT). Each lab has its own page with step-by-step instructions and the data to download.
-* **AstroLabs C7 to C11 (PVB220)** are Python notebooks that run in Google Colab or QUT's JupyterHub with no installation.
+* **AstroLabs C1 to C5 (PVB210 Stellar Astrophysics)** use free astronomy software (SAOImageDS9, AstroImageJ and TOPCAT). Each lab has its own page with step-by-step instructions and the data to download.
+* **AstroLabs C6 to C10 (PVB220 Cosmology)** are Python notebooks that run in Google Colab or QUT's JupyterHub with no installation.
 
-The labs are designed for students across a university-wide minor, so **no programming experience is needed**. In the Python labs, every code cell is already written, and students run cells, change marked values and use sliders to explore real astronomical data. Students who want to learn Python can read and modify all of the code.
+The labs are designed for students across a university-wide minor, so no programming experience is needed. In the Python labs, every code cell is already written, and students run cells, change marked values and use sliders to explore real astronomical data. Students who want to learn Python can read and modify all of the code.
 
-Companion repositories: [Astro_Demos](https://github.com/mjcowley/astro_demos) (interactive browser demos) and [Python_Intro](https://github.com/mjcowley/Python_Intro) (a general introduction to Python for physics).
+Companion repositories: [Astro_Demos](https://github.com/mjcowley/astro_demos) (interactive browser demos) and [Python_Intro](https://github.com/mjcowley/Python_Intro) (a general introduction to Python for physics students).
 
 ## AstroLabs C1 to C5 (PVB210)
 
@@ -17,9 +17,9 @@ Companion repositories: [Astro_Demos](https://github.com/mjcowley/astro_demos) (
 | --- | :-: | --- | --- | --- |
 | C1 | 2 | The celestial sphere and orbital mechanics (in development for 2027) | To be confirmed | [C1 page](C1/README.md) |
 | C2 | 4 | Stellar spectra (in development for 2027) | To be confirmed | [C2 page](C2/README.md) |
-| C3 | 6 | Composing RGB images from telescope data: JWST's view of the Carina Nebula, then your own choice of object at very different wavelengths | SAOImageDS9 | [C3 page](C3/README.md) |
-| C4 | 8 | Studying stellar evolution with Gaia: querying the Gaia archive for the stars within 50 parsecs, building and cleaning an H–R diagram, and finding the Hyades cluster from its stars' motions to see how a cluster's H–R diagram reveals its age | TOPCAT | [C4 page](C4/README.md) |
-| C5 | 10 | Hunting exoplanets: measuring the transit of WASP-2b with differential photometry, then comparing it with the same planet seen by NASA's TESS space telescope | AstroImageJ | [C5 page](C5/README.md) |
+| C3 | 6 | Composing RGB images from telescope data | SAOImageDS9 | [C3 page](C3/README.md) |
+| C4 | 8 | Studying stellar evolution with Gaia | TOPCAT | [C4 page](C4/README.md) |
+| C5 | 10 | Hunting exoplanets with differential photometry | AstroImageJ | [C5 page](C5/README.md) |
 
 Each lab page links to its data files and the proforma. Proformas are submitted on Canvas.
 
@@ -35,9 +35,9 @@ Each lab page links to its data files and the proforma. Proformas are submitted 
 
 ## Session format
 
-Each practical runs for two hours: a one-hour presentation on the science and the activity, then one hour of hands-on work supported by demonstrators. Practicals aren't submitted. Students complete multiple-choice **Canvas checkpoints** (marked 🎯 in the notebooks) as they work through each lab, and later choose one of labs C8 to C11 as the basis for their Sparkler poster presentation.
+Each practical runs for two hours with a one-hour presentation on the science and the activity, then one hour of hands-on work supported by demonstrators. For C1 to C5, students complete and submit a proforma during every practical. For C6 to C10, students complete multiple-choice Canvas checkpoints (marked 🎯 in the notebooks) as they work through each practical.
 
-## How the notebooks work
+## How the Python notebooks work
 
 Every notebook uses the same icons:
 
@@ -47,7 +47,7 @@ Every notebook uses the same icons:
 | 👉 | Change this value, then re-run the cell |
 | 🎯 | Canvas checkpoint |
 | 💡 | Hint |
-| 🔍 | Peek inside: where to find the code behind a step |
+| 🔍 | Peek inside to find the code behind a step |
 | 🚀 | Stretch activity (optional) |
 
 The first cell of each notebook downloads `astrolabs.py`, a small helper module holding the interactive widgets, data downloads and plot styling. The science steps (loading data, calculations and plots) stay visible in the notebook.
