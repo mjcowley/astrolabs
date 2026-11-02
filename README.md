@@ -23,15 +23,15 @@ Companion repositories: [Astro_Demos](https://github.com/mjcowley/astro_demos) (
 
 Each lab page links to its data files and the proforma. Proformas are submitted on Canvas.
 
-## AstroLabs C7 to C11 (PVB220)
+## AstroLabs C6 to C10 (PVB220)
 
 | Lab | Week | Topic | Notebook |
 | --- | :-: | --- | --- |
-| C7 | 2 | Your Python Toolkit for the Universe: distance scales, lookback time, the cosmological principle, Olbers' paradox and your first FITS image | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/C7/AstroLabC7.ipynb) |
-| C8 | 4 | Running the Clock Backwards: Planck units, the scale factor and redshift, the CMB spectrum, the cosmic thermometer and JWST galaxy redshifts | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/C8/AstroLabC8.ipynb) |
-| C9 | 6 | Galaxies and Their Monsters: the Hubble tuning fork, galaxy spectra and colours, the UVJ diagram, the quasar 3C 273 and its Eddington limit, broad and narrow lines, and X-ray AGN in the Chandra Deep Field South | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/C9/AstroLabC9.ipynb) |
-| C10 | 8 | Gravity's Fingerprints: bending starlight and Einstein rings, dark matter in the rotation curve of NGC 2403, and finding, locating and weighing the gravitational wave GW150914 in real LIGO data | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/C10/AstroLabC10.ipynb) |
-| C11 | 10 | Surveying the Universe: the Hubble constant and dark energy from Pantheon+ supernovae, the Hubble tension, galaxy scaling relations in ZFOURGE, and cross-matching with ZFIRE to test photometric redshifts, find a protocluster at z = 2.1 and diagnose galaxies with emission lines | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/C11/AstroLabC11.ipynb) |
+| C6 | 2 | Your Python Toolkit for the Universe: distance scales, lookback time, the cosmological principle, Olbers' paradox and your first FITS image | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/C7/AstroLabC7.ipynb) |
+| C7 | 4 | Running the Clock Backwards: Planck units, the scale factor and redshift, the CMB spectrum, the cosmic thermometer and JWST galaxy redshifts | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/C8/AstroLabC8.ipynb) |
+| C8 | 6 | Galaxies and Their Monsters: the Hubble tuning fork, galaxy spectra and colours, the UVJ diagram, the quasar 3C 273 and its Eddington limit, broad and narrow lines, and X-ray AGN in the Chandra Deep Field South | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/C9/AstroLabC9.ipynb) |
+| C9 | 8 | Gravity's Fingerprints: bending starlight and Einstein rings, dark matter in the rotation curve of NGC 2403, and finding, locating and weighing the gravitational wave GW150914 in real LIGO data | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/C10/AstroLabC10.ipynb) |
+| C10 | 10 | Surveying the Universe: the Hubble constant and dark energy from Pantheon+ supernovae, the Hubble tension, galaxy scaling relations in ZFOURGE, and cross-matching with ZFIRE to test photometric redshifts, find a protocluster at z = 2.1 and diagnose galaxies with emission lines | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/mjcowley/astrolabs/blob/main/C11/AstroLabC11.ipynb) |
 
 ## Session format
 
