@@ -24,12 +24,12 @@ This guide is for anyone who looks after the PVB220 AstroLabs: fixing a typo, ch
 ```
 astrolabs/
 ├── C1/ ... C5/           # software labs: instructions (README.md), images and proforma
-├── C7/ ... C11/          # Python labs: one notebook each (e.g. C7/AstroLabC7.ipynb)
+├── C6/ ... C10/          # Python labs: one notebook each (e.g. C6/AstroLabC6.ipynb)
 ├── astrolabs.py          # shared helper module used by every notebook
 ├── canvas/               # the HTML for each lab's Canvas page
 ├── data/
 │   ├── C3/               # data files for each lab
-│   └── C7/
+│   └── C6/
 ├── docs/
 │   └── MAINTAINING.md    # this guide
 ├── tools/
@@ -47,7 +47,7 @@ When a student opens a lab in Google Colab or JupyterHub, this is what happens:
 1. **The notebook opens.** In Colab it's loaded straight from GitHub via the *Open in Colab* badge.
 2. **The setup cell runs.** It downloads the latest `astrolabs.py` from
    `https://raw.githubusercontent.com/mjcowley/astrolabs/main/astrolabs.py` into the folder the notebook is running in (keeping any existing copy if the student is offline).
-3. **Data is fetched when needed.** Each notebook calls `al.get_data("C8/some_file.csv")`. That looks for `data/C8/some_file.csv` next to the notebook (or in the repository's own `data/` folder, one level up, when the whole repository has been downloaded), and if it isn't there, downloads it from the same GitHub address into a local `data/` folder.
+3. **Data is fetched when needed.** Each notebook calls `al.get_data("C7/some_file.csv")`. That looks for `data/C7/some_file.csv` next to the notebook (or in the repository's own `data/` folder, one level up, when the whole repository has been downloaded), and if it isn't there, downloads it from the same GitHub address into a local `data/` folder.
 
 So the notebooks, the helper and the data all come from the **`main` branch on GitHub**. The notebooks use full web addresses for the helper, the data and the logo, so they work wherever they sit. **Don't move or rename `astrolabs.py`, `data/` or `Images/`**: copies of the notebooks that students have saved in their own Google Drive rely on those addresses. That's what makes the next section so important.
 
@@ -99,7 +99,7 @@ python tools/test_notebooks.py
 
 # 4. Commit and push
 git add -A
-git commit -m "Fix typo in C8 Part 3"
+git commit -m "Fix typo in C7 Part 3"
 git push -u origin fix-c8-typo
 ```
 
@@ -123,7 +123,7 @@ Within a few minutes, students will see the change. GitHub's file server can cac
 | Top of file | `REPO_URL`, the colour palette `COLOURS` |
 | Setup and data | `setup()` (plot style and package check), `get_data()` (find or download a data file) |
 | Self-check answers | `_ANSWERS` and `check()` |
-| One block per lab | Marked with a banner such as `# AstroLab C8: Running the Clock Backwards`. Each holds that lab's widgets and functions |
+| One block per lab | Marked with a banner such as `# AstroLab C7: Running the Clock Backwards`. Each holds that lab's widgets and functions |
 
 ### Conventions
 
@@ -137,10 +137,10 @@ Within a few minutes, students will see the change. GitHub's file server can cac
 
 ### Adding a self-check answer
 
-`check("C8_z_galaxy_C", value)` compares a student's number with an entry in `_ANSWERS`:
+`check("C7_z_galaxy_C", value)` compares a student's number with an entry in `_ANSWERS`:
 
 ```python
-"C8_z_galaxy_C": (5.45, 0.015, "Line up the dashed lines with the bright emission lines of galaxy C."),
+"C7_z_galaxy_C": (5.45, 0.015, "Line up the dashed lines with the bright emission lines of galaxy C."),
 #                  ^      ^       ^
 #                  answer relative tolerance (1.5%)   hint shown if wrong
 ```
@@ -159,10 +159,10 @@ Edit notebooks in Jupyter (or Colab, see below), never by hand in a text editor.
 ### Conventions used in every lab
 
 * **The first code cell is the setup cell** (`#@title ▶️ Run me first: setup`). Keep it identical across labs apart from the imports a lab needs. It always downloads the latest `astrolabs.py` from `main` and reloads it (falling back to an existing copy when offline), so fixes reach students the next time they run it. This also overwrites any edits a student made to their own copy.
-* **Icons:** ▶️ run this cell, 👉 change this value, 🎯 Canvas checkpoint, 💡 hint, 🔍 peek inside, 🚀 stretch activity. They're explained in Part 0 of C7.
+* **Icons:** ▶️ run this cell, 👉 change this value, 🎯 Canvas checkpoint, 💡 hint, 🔍 peek inside, 🚀 stretch activity. They're explained in Part 0 of C6.
 * **Canvas checkpoints** are block quotes: `> 🎯 **Canvas checkpoint Q3:** ...`. Number them in order. If you add, remove or reorder one, update the Canvas quiz and the answer file to match.
 * **Students never have to write code.** Anything they change should be a single marked value (`# 👉 Change this and re-run`) or a slider.
-* **Every lab ends with** "What's Coming Up", Sparkler ideas (C8 onwards), an optional 🚀 stretch activity, and **Data and image credits**.
+* **Every lab ends with** "What's Coming Up", Sparkler ideas (C7 onwards), an optional 🚀 stretch activity, and **Data and image credits**.
 * **Australian spelling and contractions** (you'll, it's, don't) throughout, matching the lectures.
 
 ### Clear outputs before committing
@@ -176,7 +176,7 @@ Colab can save directly back to GitHub: *File > Save a copy in GitHub*, choose `
 ## 7. Adding or updating data
 
 * Put each lab's files in `data/C<lab>/` and load them with `al.get_data("C<lab>/filename")`.
-* **Keep files small.** Students download them every session, sometimes on slow connections. Aim for under about 10 MB per notebook lab. GitHub refuses any file over 100 MB and warns above 50 MB, so keep every file under 50 MB (C3's JWST images are cut out and compressed for this reason). Trim catalogues to the columns and rows the lab uses, and shrink images and maps (C8's CMB maps are stored as 16-bit integers with a scale factor to halve their size).
+* **Keep files small.** Students download them every session, sometimes on slow connections. Aim for under about 10 MB per notebook lab. GitHub refuses any file over 100 MB and warns above 50 MB, so keep every file under 50 MB (C3's JWST images are cut out and compressed for this reason). Trim catalogues to the columns and rows the lab uses, and shrink images and maps (C7's CMB maps are stored as 16-bit integers with a scale factor to halve their size).
 * **Prefer simple formats:** CSV for tables, FITS for images and maps (also good practice for students, since FITS is the astronomy standard).
 * **Never rename or delete a file** a notebook uses (section 2). To replace data, add a new file name and update the notebook.
 * **Credit every data source** in the notebook's credits section and the README's *Data credits* section, with the reference paper and archive.
@@ -191,24 +191,24 @@ Colab can save directly back to GitHub: *File > Save a copy in GitHub*, choose `
 | `C4/gaia_dr3_*.fits` | Gaia DR3 (`gaiadr3.gaia_source`), queried in TOPCAT's TAP window with Max Rows raised to 2,000,000: parallax > 10 with parallax, BP and RP flux S/N > 10 (306,517 stars, the full query is in `tools/make_c4_data.py`) | Made with `tools/make_c4_data.py`: the full 100 pc table, the 50 pc subset (parallax > 20, 39,911 stars, matching the query students run) and the Taurus patch around the Hyades (RA 50 to 85°, Dec 0 to 30°, 7,308 stars). The Gaia archive limits anonymous queries to 50,000 rows unless Max Rows is set explicitly. About 71% of stars pass `ruwe < 1.4` and the excess-factor polygon. The Hyades clump is at pmra ≈ +105, pmdec ≈ −28 mas/yr, parallax ≈ 21 mas |
 | `C5/wasp2_lco_images.zip` | Las Cumbres Observatory archive: ten 15 s Faulkes Telescope North images of WASP-2, 2008-10-05 UT (proposal `johnjohn`) | Unchanged, but renamed in time order: `wasp2_lco_01.fits` to `_10.fits` were `l_e_20081004_494_6_1_1.fits`, `_494_16_`, `_494_26_`, `_494_51_`, `_494_76_`, `_494_101_`, `_494_126_`, `_495_24_`, `_495_49_` and `_495_74_`. The transit runs from about image 4 to image 8, with a depth of about 1.8% |
 | `C5/wasp2_tess_sector81.csv` | TESS 2-minute light curve of WASP-2 (TIC 374530847, Sector 81), MAST | Made with `tools/make_c5_data.py`: `PDCSAP_FLUX` with `QUALITY = 0`, divided by its median; time in days since the first measurement. The same script draws the TESS plots and transit diagram in `C5/images/`. The AstroImageJ screenshots in `C5/images/` were supplied by the unit coordinator. Period 2.152 days, depth about 1.6%, duration about 1.7 hours |
-| `C7/batse_grbs.csv` | BATSE 4B catalogue, HEASARC table `batsegrb` | Kept name, RA, Dec and Galactic coordinates |
-| `C7/nearby_galaxies.csv` | 2MASS Redshift Survey, VizieR `J/ApJS/199/26/table3` | Kept Galactic coordinates and cz for cz > 0; distance = cz / 70 km/s/Mpc |
-| `C7/galaxy_grz.fits` | DESI Legacy Surveys DR10 cutout service | NGC 1365, 800 × 800 pixels at 1″/pixel, g, r, z bands |
-| `C8/firas_cmb_spectrum.csv` | COBE FIRAS monopole spectrum, NASA LAMBDA (`firas_monopole_spec_v1.txt`) | Converted cm⁻¹ to GHz and mm; uncertainties from kJy/sr to MJy/sr |
-| `C8/jwst_spectra.csv` | JADES DR4 NIRSpec prism `x1d` spectra, MAST HLSP | Five GOODS-S galaxies (IDs 3753, 159438, 202208, 12637, 265801); `EXTRACT5PIX1D` flux × 10²⁰ |
-| `C8/cmb_maps.fits` | Planck 2015 SMICA (IRSA), WMAP 9-year K band (LAMBDA) | Mollweide projections in Galactic coordinates with `healpy`; dipole is a model from the Planck 2018 amplitude and direction; patches are 10° × 10° at (l, b) = (240°, −55°) |
-| `C9/images/*.jpg` | DESI Legacy Surveys viewer (`jpeg-cutout`), DR9 layer for M87, NGC 4473, NGC 3115 and M74; DR10 for NGC 1300 and NGC 1427A; SDSS layer for M104 | 400 × 400 pixels. DR9/SDSS used where DR10 shows saturation artefacts on bright galaxies |
-| `C9/galaxy_spectra.csv` | Brown et al. (2014) atlas, STScI reference atlases (`cdbs/grid/brown`) | Six galaxies, resampled onto a common grid and normalised to 1 at 5500 Å (rest frame) |
-| `C9/agn_spectra.csv` | Brown et al. (2019) AGN SED atlas on MAST (`hlsps/agnsedatlas`, observed-frame text files) for 3C 273 and NGC 4151; Brown et al. (2014) for NGC 1068 | 3500 to 10000 Å, each normalised by its median |
-| `C9/zfourge_cdfs_galaxies.csv` | ZFOURGE CDFS (Straatman et al. 2016), VizieR `J/ApJ/830/51` tables `zf_cdfs`, `cdfssfr` | `Use = 1` only. Rest-frame U−V and V−J estimated by log-linear interpolation of the photometry (U, IA, HST, FourStar, Ks, IRAC bands with S/N > 2) at 0.365, 0.551 and 1.22 μm |
-| `C9/zfourge_xray_matches.csv` | VizieR `J/ApJ/830/51/cdfsxmatch` (`xAGN` flag, Cowley et al. 2016) | Galaxies with `Use = 1` and an X-ray match |
-| `C9/chandra_cdfs_7ms.csv` | Luo et al. (2017), VizieR `J/ApJS/228/2/sources` | AGN and galaxies with a redshift (`zF`) and `LX` (erg/s, rest-frame 0.5 to 7 keV, not corrected for absorption; `LXc` is the corrected value) |
-| `C10/ngc2403_rotation_curve.csv` | SPARC (Lelli et al. 2016), VizieR `J/AJ/152/157/table2`, NGC 2403 | Kept radius, Vobs, e_Vobs, Vgas; `v_stars` = Vdisk × √0.5 (3.6 μm mass-to-light ratio of 0.5). Best fit with the pseudo-isothermal halo: v∞ ≈ 126 km/s, core ≈ 1.6 kpc, mismatch ≈ 3.7 |
-| `C10/gw150914_strain.npz` | GWOSC event API, GWTC-1-confident GW150914 v3, 32 s, 4 kHz `txt.gz` files for H1 and L1 | Stored as float32 arrays `H1`, `L1` with `fs` and `t_start` (seconds relative to GPS 1126259462.4) |
-| `C10/gw_catalogue.csv` | GWOSC `eventapi/json/allevents` | Confident events from GWTC-1/2.1/3 confident and GWTC-4.0/4.1/5.0 with p_astro ≥ 0.9 and source-frame masses; latest catalogue kept per event |
-| `C11/pantheon_plus_supernovae.csv` | Pantheon+SH0ES data release (`Pantheon+SH0ES.dat`, github.com/PantheonPlusSH0ES/DataRelease) | Kept name, `zHD`, `MU_SH0ES` and its diagonal error; Cepheid calibrator rows removed (1,624 rows). v = cz fit through the origin at 0.01 < z < 0.05 gives H0 ≈ 70.6 km/s/Mpc; best Ω_M, Ω_Λ ≈ 0.3, 0.6 to 0.7 at H0 = 73 |
-| `C11/zfourge_cosmos.csv` | ZFOURGE COSMOS (Straatman et al. 2016), VizieR `J/ApJ/830/51` tables `zf_cosmos`, `cosmossfr`, `cosmosz`, `cosxmatch` | `Use = 1` only (11,861 rows). `z_phot` = EAZY `zpk`; `log_sfr` = log10 of the UV + IR SFR (NaN where ≤ 0); `r_eff_arcsec` from van der Wel et al. (2014). 23 of the 161 ZFIRE galaxies match a `Use ≠ 1` source and so have no counterpart here (explained in the notebook) |
-| `C11/zfire_cosmos.csv` | ZFIRE (Nanayakkara et al. 2016), VizieR `J/ApJ/828/21/zfire_cos` | `q_zsp = 3` only (161 rows); kept cluster membership, AGN flag and Hα, [N II], Hβ, [O III] fluxes (`FHa`, `FNII`, `FHb`, `FOIII`; the notebook drops zero fluxes before taking logs) |
+| `C6/batse_grbs.csv` | BATSE 4B catalogue, HEASARC table `batsegrb` | Kept name, RA, Dec and Galactic coordinates |
+| `C6/nearby_galaxies.csv` | 2MASS Redshift Survey, VizieR `J/ApJS/199/26/table3` | Kept Galactic coordinates and cz for cz > 0; distance = cz / 70 km/s/Mpc |
+| `C6/galaxy_grz.fits` | DESI Legacy Surveys DR10 cutout service | NGC 1365, 800 × 800 pixels at 1″/pixel, g, r, z bands |
+| `C7/firas_cmb_spectrum.csv` | COBE FIRAS monopole spectrum, NASA LAMBDA (`firas_monopole_spec_v1.txt`) | Converted cm⁻¹ to GHz and mm; uncertainties from kJy/sr to MJy/sr |
+| `C7/jwst_spectra.csv` | JADES DR4 NIRSpec prism `x1d` spectra, MAST HLSP | Five GOODS-S galaxies (IDs 3753, 159438, 202208, 12637, 265801); `EXTRACT5PIX1D` flux × 10²⁰ |
+| `C7/cmb_maps.fits` | Planck 2015 SMICA (IRSA), WMAP 9-year K band (LAMBDA) | Mollweide projections in Galactic coordinates with `healpy`; dipole is a model from the Planck 2018 amplitude and direction; patches are 10° × 10° at (l, b) = (240°, −55°) |
+| `C8/images/*.jpg` | DESI Legacy Surveys viewer (`jpeg-cutout`), DR9 layer for M87, NGC 4473, NGC 3115 and M74; DR10 for NGC 1300 and NGC 1427A; SDSS layer for M104 | 400 × 400 pixels. DR9/SDSS used where DR10 shows saturation artefacts on bright galaxies |
+| `C8/galaxy_spectra.csv` | Brown et al. (2014) atlas, STScI reference atlases (`cdbs/grid/brown`) | Six galaxies, resampled onto a common grid and normalised to 1 at 5500 Å (rest frame) |
+| `C8/agn_spectra.csv` | Brown et al. (2019) AGN SED atlas on MAST (`hlsps/agnsedatlas`, observed-frame text files) for 3C 273 and NGC 4151; Brown et al. (2014) for NGC 1068 | 3500 to 10000 Å, each normalised by its median |
+| `C8/zfourge_cdfs_galaxies.csv` | ZFOURGE CDFS (Straatman et al. 2016), VizieR `J/ApJ/830/51` tables `zf_cdfs`, `cdfssfr` | `Use = 1` only. Rest-frame U−V and V−J estimated by log-linear interpolation of the photometry (U, IA, HST, FourStar, Ks, IRAC bands with S/N > 2) at 0.365, 0.551 and 1.22 μm |
+| `C8/zfourge_xray_matches.csv` | VizieR `J/ApJ/830/51/cdfsxmatch` (`xAGN` flag, Cowley et al. 2016) | Galaxies with `Use = 1` and an X-ray match |
+| `C8/chandra_cdfs_7ms.csv` | Luo et al. (2017), VizieR `J/ApJS/228/2/sources` | AGN and galaxies with a redshift (`zF`) and `LX` (erg/s, rest-frame 0.5 to 7 keV, not corrected for absorption; `LXc` is the corrected value) |
+| `C9/ngc2403_rotation_curve.csv` | SPARC (Lelli et al. 2016), VizieR `J/AJ/152/157/table2`, NGC 2403 | Kept radius, Vobs, e_Vobs, Vgas; `v_stars` = Vdisk × √0.5 (3.6 μm mass-to-light ratio of 0.5). Best fit with the pseudo-isothermal halo: v∞ ≈ 126 km/s, core ≈ 1.6 kpc, mismatch ≈ 3.7 |
+| `C9/gw150914_strain.npz` | GWOSC event API, GWTC-1-confident GW150914 v3, 32 s, 4 kHz `txt.gz` files for H1 and L1 | Stored as float32 arrays `H1`, `L1` with `fs` and `t_start` (seconds relative to GPS 1126259462.4) |
+| `C9/gw_catalogue.csv` | GWOSC `eventapi/json/allevents` | Confident events from GWTC-1/2.1/3 confident and GWTC-4.0/4.1/5.0 with p_astro ≥ 0.9 and source-frame masses; latest catalogue kept per event |
+| `C10/pantheon_plus_supernovae.csv` | Pantheon+SH0ES data release (`Pantheon+SH0ES.dat`, github.com/PantheonPlusSH0ES/DataRelease) | Kept name, `zHD`, `MU_SH0ES` and its diagonal error; Cepheid calibrator rows removed (1,624 rows). v = cz fit through the origin at 0.01 < z < 0.05 gives H0 ≈ 70.6 km/s/Mpc; best Ω_M, Ω_Λ ≈ 0.3, 0.6 to 0.7 at H0 = 73 |
+| `C10/zfourge_cosmos.csv` | ZFOURGE COSMOS (Straatman et al. 2016), VizieR `J/ApJ/830/51` tables `zf_cosmos`, `cosmossfr`, `cosmosz`, `cosxmatch` | `Use = 1` only (11,861 rows). `z_phot` = EAZY `zpk`; `log_sfr` = log10 of the UV + IR SFR (NaN where ≤ 0); `r_eff_arcsec` from van der Wel et al. (2014). 23 of the 161 ZFIRE galaxies match a `Use ≠ 1` source and so have no counterpart here (explained in the notebook) |
+| `C10/zfire_cosmos.csv` | ZFIRE (Nanayakkara et al. 2016), VizieR `J/ApJ/828/21/zfire_cos` | `q_zsp = 3` only (161 rows); kept cluster membership, AGN flag and Hα, [N II], Hβ, [O III] fluxes (`FHa`, `FNII`, `FHb`, `FOIII`; the notebook drops zero fluxes before taking logs) |
 
 ## 8. Testing
 
@@ -216,10 +216,10 @@ Colab can save directly back to GitHub: *File > Save a copy in GitHub*, choose `
 
 ```bash
 python tools/test_notebooks.py                   # every lab
-python tools/test_notebooks.py C8/AstroLabC8.ipynb  # just one
+python tools/test_notebooks.py C7/AstroLabC7.ipynb  # just one
 ```
 
-The script runs each notebook in a temporary folder and lists any cell that fails. It tests your **local** `astrolabs.py`: the setup cell's download from GitHub is skipped during tests, so you can test helper changes before they reach `main`. It knows about the deliberate error in C7's "Fix the broken cell" activity and ignores it. If you add another deliberate error, add it to `EXPECTED_ERRORS` at the top of the script.
+The script runs each notebook in a temporary folder and lists any cell that fails. It tests your **local** `astrolabs.py`: the setup cell's download from GitHub is skipped during tests, so you can test helper changes before they reach `main`. It knows about the deliberate error in C6's "Fix the broken cell" activity and ignores it. If you add another deliberate error, add it to `EXPECTED_ERRORS` at the top of the script.
 
 The script runs every widget once with its default values, so it catches crashes but not plots that look wrong. **After changing a widget, also open the notebook in Jupyter and try the sliders yourself**, including their extreme values.
 
@@ -229,14 +229,14 @@ Finally, after merging, open the lab from the README's *Open in Colab* badge and
 
 1. **Read the lecture slides for that week** and build the lab around them: the lab should reuse the lecture's examples, language and numbers.
 2. **Plan around one hour** of hands-on time, in five or six parts of about ten minutes each, plus an optional stretch activity.
-3. **Start from an existing notebook.** Copy `C8/AstroLabC8.ipynb` to a new folder as `C<n>/AstroLabC<n>.ipynb`, keep the header, setup cell and closing sections, and replace the middle.
+3. **Start from an existing notebook.** Copy `C7/AstroLabC7.ipynb` to a new folder as `C<n>/AstroLabC<n>.ipynb`, keep the header, setup cell and closing sections, and replace the middle.
 4. **Put new widgets in a new block** at the end of `astrolabs.py`, with a banner comment naming the lab.
 5. **Add data** under `data/C<n>/` (section 7).
-6. **Add a row to the README's lab table** with an *Open in Colab* badge (copy the C8 row and change the folder and file name), and add the data credits.
+6. **Add a row to the README's lab table** with an *Open in Colab* badge (copy the C7 row and change the folder and file name), and add the data credits.
 7. **Write the Canvas questions** (section 10).
 8. **Test** (section 8), then open a pull request.
 
-Each lab should practise one new Python skill on top of the earlier labs (C7: variables, units, arrays, tables and plots; C8: functions and fitting a model to data), but always in a form students can complete by running cells and moving sliders.
+Each lab should practise one new Python skill on top of the earlier labs (C6: variables, units, arrays, tables and plots; C7: functions and fitting a model to data), but always in a form students can complete by running cells and moving sliders.
 
 ## 10. Canvas pages, questions and answers
 
@@ -254,7 +254,7 @@ The HTML for each page is kept in `canvas/` (for example `canvas/C3.html`), so a
 
 **Answer files never go in this repository.** The repository is public and indexed by search engines, so anything committed here (even if later deleted) can be found in the history.
 
-For each lab, keep a separate Markdown file (for example `AstroLabC8_canvas.md`) with the instructor, outside the repository. Each question has:
+For each lab, keep a separate Markdown file (for example `AstroLabC7_canvas.md`) with the instructor, outside the repository. Each question has:
 
 * the checkpoint number matching the notebook,
 * four multiple-choice options with the correct one marked,

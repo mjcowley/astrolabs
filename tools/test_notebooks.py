@@ -5,7 +5,7 @@ Usage (from the repository root):
 
     pip install -r requirements.txt nbformat nbclient ipykernel
     python tools/test_notebooks.py                 # test all notebooks
-    python tools/test_notebooks.py C8/AstroLabC8.ipynb   # test one notebook
+    python tools/test_notebooks.py C7/AstroLabC7.ipynb   # test one notebook
 
 Each notebook runs in a temporary folder, next to copies of astrolabs.py and
 data/, so nothing in your working folder is changed and no outputs are saved

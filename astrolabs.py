@@ -57,8 +57,8 @@ def get_data(path):
     """
     Return the local path to a data file, downloading it if needed.
 
-    `path` is relative to the repository's data/ folder, e.g. "C7/batse_grbs.csv".
-    In a copy of the whole repository, notebooks sit one folder down (C7/, C8/, ...),
+    `path` is relative to the repository's data/ folder, e.g. "C6/batse_grbs.csv".
+    In a copy of the whole repository, notebooks sit one folder down (C6/, C7/, ...),
     so the repository's own data/ folder is checked there too.
     """
     local = os.path.join("data", path)
@@ -85,29 +85,29 @@ def get_data(path):
 
 # question id: (expected value, relative tolerance, hint if wrong)
 _ANSWERS = {
-    "C7_sun_minutes": (8.3, 0.03, "Divide the Sun's distance by the speed of light, then convert to minutes."),
-    "C7_proxima_pc": (1.30, 0.03, "Use .to(u.pc) on Proxima Centauri's distance."),
-    "C7_orders": (17.5, 0.03, "Take log10 of (MoM-z14 distance / Moon distance)."),
-    "C8_planck_temperature": (1.42e32, 0.05, "Use T_P = sqrt(hbar c^5 / (G k^2)) and convert to kelvin."),
-    "C8_z_tenth": (9, 0.01, "Use 1 + z = 1 / a with a = 0.1."),
-    "C8_cmb_temperature": (2.725, 0.002, "Move the slider until the curve passes through the data points."),
-    "C8_decoupling_z": (1100, 0.03, "Use 1 + z = T_then / T_now with T_then = 3000 K."),
-    "C8_helium": (0.25, 0.03, "Use Y = 2 x / (1 + x) with x = 1/7."),
-    "C8_z_galaxy_C": (5.45, 0.015, "Line up the dashed lines with the bright emission lines of galaxy C."),
-    "C9_E_ngc4473": (4.5, 0.25, "Stretch the ellipse to match the galaxy's outline, then use E = 10 (1 - b/a)."),
-    "C9_z_3c273": (0.158, 0.02, "Line up the dashed H-alpha line with the tallest peak, near 7590 Angstroms."),
-    "C9_distance_mpc": (667, 0.03, "Use v = cz, then d = v / H0 with H0 = 71 km/s/Mpc."),
-    "C9_brightness_ratio": (120, 0.05, "Use 100 ** ((m1 - m2) / 5) with M31's magnitude first."),
-    "C9_eddington_mass": (1.2e8, 0.05, "First turn 3C 273's magnitude into a luminosity, then multiply by 3.1e-5."),
-    "C9_eddington_rate": (2.9, 0.05, "Multiply the Eddington mass by 2.4e-8."),
-    "C10_deflection_sun": (1.75, 0.03, "Use alpha = 4GM/(c^2 b) with b = the radius of the Sun, then convert radians to arcseconds."),
-    "C10_halo_speed": (126, 0.12, "Move the halo speed slider until the red curve runs through the flat part of the data."),
-    "C10_strain": (1.3e-21, 0.1, "Use h = (GM/c^2) (1/D) (v/c)^2 with v = 2e8 m/s."),
-    "C10_delay_ms": (7.0, 0.15, "Slide Livingston until its wiggles line up with Hanford's (and tick 'flip')."),
-    "C10_chirp_mass": (31, 0.12, "Move the slider until the white curve follows the bright chirp in the spectrogram."),
-    "C11_hubble_constant": (70.6, 0.04, "Fit a straight line through the origin to velocity (cz) against distance."),
-    "C11_false_match_percent": (1.9, 0.3, "Count the shifted matches inside your radius and divide by the number of ZFIRE galaxies."),
-    "C11_outlier_percent": (1.4, 0.3, "Count galaxies with |z_phot - z_spec| / (1 + z_spec) > 0.15."),
+    "C6_sun_minutes": (8.3, 0.03, "Divide the Sun's distance by the speed of light, then convert to minutes."),
+    "C6_proxima_pc": (1.30, 0.03, "Use .to(u.pc) on Proxima Centauri's distance."),
+    "C6_orders": (17.5, 0.03, "Take log10 of (MoM-z14 distance / Moon distance)."),
+    "C7_planck_temperature": (1.42e32, 0.05, "Use T_P = sqrt(hbar c^5 / (G k^2)) and convert to kelvin."),
+    "C7_z_tenth": (9, 0.01, "Use 1 + z = 1 / a with a = 0.1."),
+    "C7_cmb_temperature": (2.725, 0.002, "Move the slider until the curve passes through the data points."),
+    "C7_decoupling_z": (1100, 0.03, "Use 1 + z = T_then / T_now with T_then = 3000 K."),
+    "C7_helium": (0.25, 0.03, "Use Y = 2 x / (1 + x) with x = 1/7."),
+    "C7_z_galaxy_C": (5.45, 0.015, "Line up the dashed lines with the bright emission lines of galaxy C."),
+    "C8_E_ngc4473": (4.5, 0.25, "Stretch the ellipse to match the galaxy's outline, then use E = 10 (1 - b/a)."),
+    "C8_z_3c273": (0.158, 0.02, "Line up the dashed H-alpha line with the tallest peak, near 7590 Angstroms."),
+    "C8_distance_mpc": (667, 0.03, "Use v = cz, then d = v / H0 with H0 = 71 km/s/Mpc."),
+    "C8_brightness_ratio": (120, 0.05, "Use 100 ** ((m1 - m2) / 5) with M31's magnitude first."),
+    "C8_eddington_mass": (1.2e8, 0.05, "First turn 3C 273's magnitude into a luminosity, then multiply by 3.1e-5."),
+    "C8_eddington_rate": (2.9, 0.05, "Multiply the Eddington mass by 2.4e-8."),
+    "C9_deflection_sun": (1.75, 0.03, "Use alpha = 4GM/(c^2 b) with b = the radius of the Sun, then convert radians to arcseconds."),
+    "C9_halo_speed": (126, 0.12, "Move the halo speed slider until the red curve runs through the flat part of the data."),
+    "C9_strain": (1.3e-21, 0.1, "Use h = (GM/c^2) (1/D) (v/c)^2 with v = 2e8 m/s."),
+    "C9_delay_ms": (7.0, 0.15, "Slide Livingston until its wiggles line up with Hanford's (and tick 'flip')."),
+    "C9_chirp_mass": (31, 0.12, "Move the slider until the white curve follows the bright chirp in the spectrogram."),
+    "C10_hubble_constant": (70.6, 0.04, "Fit a straight line through the origin to velocity (cz) against distance."),
+    "C10_false_match_percent": (1.9, 0.3, "Count the shifted matches inside your radius and divide by the number of ZFIRE galaxies."),
+    "C10_outlier_percent": (1.4, 0.3, "Count galaxies with |z_phot - z_spec| / (1 + z_spec) > 0.15."),
 }
 
 
@@ -418,7 +418,7 @@ def isotropy_explorer(galaxies, sky_map):
 
 
 # ===========================================================================
-# AstroLab C8: Running the Clock Backwards
+# AstroLab C7: Running the Clock Backwards
 # ===========================================================================
 
 T_CMB_TODAY = 2.7255   # K (Fixsen 2009)
@@ -773,7 +773,7 @@ def resolution_explorer(maps):
 
 
 # ===========================================================================
-# AstroLab C9: Galaxies and Their Monsters
+# AstroLab C8: Galaxies and Their Monsters
 # ===========================================================================
 
 # Hubble types for the galaxy gallery (the answer key for galaxy_classifier)
@@ -991,7 +991,7 @@ def uvj_explorer(galaxies):
 
 
 # ===========================================================================
-# AstroLab C10: Gravity's Fingerprints
+# AstroLab C9: Gravity's Fingerprints
 # ===========================================================================
 
 def deflection_explorer():
@@ -1199,7 +1199,7 @@ def chirp_sound(chirp_mass, duration=2.0, fs=4096, start_hz=30):
 
 
 # ===========================================================================
-# AstroLab C11: Surveying the Universe
+# AstroLab C10: Surveying the Universe
 # ===========================================================================
 
 def cosmology_explorer(supernovae, h0=73.0):
