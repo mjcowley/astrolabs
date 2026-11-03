@@ -4,7 +4,7 @@
 
 Astronomy practicals for the [Astrophysics Minor](https://research.qut.edu.au/qutastrophysics/education/) at QUT, developed by the QUT Astrophysics Research Group [(QARG)](https://research.qut.edu.au/qutastrophysics/).
 
-* **AstroLabs C1 to C5 (PVB210 Stellar Astrophysics)** use free astronomy software (SAOImageDS9, AstroImageJ and TOPCAT). Each lab has its own page with step-by-step instructions and the data to download.
+* **AstroLabs C1 to C5 (PVB210 Stellar Astrophysics)** use free astronomy software (Stellarium, SAOImageDS9, AstroImageJ and TOPCAT). Each lab has its own page with step-by-step instructions and the data to download.
 * **AstroLabs C6 to C10 (PVB220 Cosmology)** are Python notebooks that run in Google Colab or QUT's JupyterHub with no installation.
 
 The labs are designed for students across a university-wide minor, so no programming experience is needed. In the Python labs, every code cell is already written, and students run cells, change marked values and use sliders to explore real astronomical data. Students who want to learn Python can read and modify all of the code.
@@ -15,7 +15,7 @@ Companion repositories: [Astro_Demos](https://github.com/mjcowley/astro_demos) (
 
 | Lab | Week | Topic | Software | Instructions |
 | --- | :-: | --- | --- | --- |
-| C1 | 2 | The celestial sphere and orbital mechanics (in development for 2027) | To be confirmed | [C1 page](C1/README.md) |
+| C1 | 2 | The celestial sphere and Jupiter's moons (draft for testing) | Stellarium | [C1 page](C1/README.md) |
 | C2 | 4 | Stellar spectra (in development for 2027) | To be confirmed | [C2 page](C2/README.md) |
 | C3 | 6 | Composing RGB images from telescope data | SAOImageDS9 | [C3 page](C3/README.md) |
 | C4 | 8 | Studying stellar evolution with Gaia | TOPCAT | [C4 page](C4/README.md) |
