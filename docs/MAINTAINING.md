@@ -34,6 +34,7 @@ astrolabs/
 │   └── MAINTAINING.md    # this guide
 ├── tools/
 │   ├── test_notebooks.py # runs every notebook and reports errors
+│   ├── make_c1_figures.py # draws the C1 orbit diagram
 │   ├── make_c3_data.py   # rebuilds the C3 data files
 │   ├── make_c4_data.py   # makes the C4 Gaia files from the query result
 │   └── make_c5_data.py   # rebuilds the C5 data files and figures
@@ -186,6 +187,7 @@ Colab can save directly back to GitHub: *File > Save a copy in GitHub*, choose `
 
 | File | Source | Processing |
 | --- | --- | --- |
+| C1 (no data files) | Students generate their own measurements in Stellarium on 1 March 2027 from Brisbane | `tools/make_c1_figures.py` draws `C1/images/europa_orbit.png`. Expected Europa readings (6-hourly from 9 pm, from Meeus's low-accuracy theory) peak at about 3.5′ either side of Jupiter, with a period of 3.55 days and Jupiter 4.42 AU away. These give about 1.0 Jupiter masses in the [Kepler's Third Law Calculator](https://mjcowley.github.io/astro_demos/kepler-calculator/) |
 | `C3/carina_jwst_*.fits.fz` | JWST NIRCam mosaics of NGC 3324 (program 2731, `jw02731-o001_t017_nircam_clear-*_i2d.fits`), MAST | Made with `tools/make_c3_data.py`: the same 264″ × 157″ patch of sky from each filter at full resolution, saved with RICE tile compression (quantize level 16). About 83 MB in total instead of about 12 GB for the full mosaics |
 | `C3/ngc7293_*.fits.fz` | Spitzer Enhanced Imaging Products (IRAC 3.6 μm and MIPS 24 μm mosaics, AOR 40045030) and Herschel High Level Images (SPIRE 250 μm, obsid 1342256744), IRSA | Made with `tools/make_c3_data.py`: the same 26′ × 26′ patch of sky centred on NGC 7293 from each, at native resolution, RICE compressed |
 | `C4/gaia_dr3_*.fits` | Gaia DR3 (`gaiadr3.gaia_source`), queried in TOPCAT's TAP window with Max Rows raised to 2,000,000: parallax > 10 with parallax, BP and RP flux S/N > 10 (306,517 stars, the full query is in `tools/make_c4_data.py`) | Made with `tools/make_c4_data.py`: the full 100 pc table, the 50 pc subset (parallax > 20, 39,911 stars, matching the query students run) and the Taurus patch around the Hyades (RA 50 to 85°, Dec 0 to 30°, 7,308 stars). The Gaia archive limits anonymous queries to 50,000 rows unless Max Rows is set explicitly. About 71% of stars pass `ruwe < 1.4` and the excess-factor polygon. The Hyades clump is at pmra ≈ +105, pmdec ≈ −28 mas/yr, parallax ≈ 21 mas |
