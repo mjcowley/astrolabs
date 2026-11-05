@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Queensland University of Technology
 """
 astrolabs.py - helper functions for the PVB220 Cosmology AstroLabs.
 

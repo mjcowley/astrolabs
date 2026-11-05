@@ -173,3 +173,7 @@ Repeat Part 2 for Ganymede or Callisto. They're further from Jupiter, so they ta
 
 * Stellarium (stellarium.org), free and open-source planetarium software.
 * The orbit diagram was made with [`tools/make_c1_figures.py`](../tools/make_c1_figures.py).
+
+---
+
+*© 2026 Queensland University of Technology. Created by Dr Michael Cowley, QUT Astrophysics Research Group, with AI assistance. The text and our own figures are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) and the code under the MIT License. Logos and third-party material are excluded. See [Licence and credits](../README.md#licence-and-credits).*

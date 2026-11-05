@@ -181,6 +181,7 @@ Colab can save directly back to GitHub: *File > Save a copy in GitHub*, choose `
 * **Prefer simple formats:** CSV for tables, FITS for images and maps (also good practice for students, since FITS is the astronomy standard).
 * **Never rename or delete a file** a notebook uses (section 2). To replace data, add a new file name and update the notebook.
 * **Credit every data source** in the notebook's credits section and the README's *Data credits* section, with the reference paper and archive.
+* **Only use material you're allowed to share.** The repository is published as an Open Educational Resource under QUT's OER Policy (see *Licence and credits* in the README). Public archive data, Creative Commons images and screenshots of free software are fine with a credit. Never add images copied from papers, textbooks or websites without the owner's permission, and list any third-party image in the lab's credits so it's clear it isn't covered by our CC BY licence.
 * **Record how you made the file.** Add a short note to the table below (or the commit message) with where the data came from and what you did to it, so it can be rebuilt.
 
 ### Where the current data came from
@@ -236,7 +237,8 @@ Finally, after merging, open the lab from the README's *Open in Colab* badge and
 5. **Add data** under `data/C<n>/` (section 7).
 6. **Add a row to the README's lab table** with an *Open in Colab* badge (copy the C7 row and change the folder and file name), and add the data credits.
 7. **Write the Canvas questions** (section 10).
-8. **Test** (section 8), then open a pull request.
+8. **Keep the licence line** at the end of the credits (copy it from an existing lab).
+9. **Test** (section 8), then open a pull request.
 
 Each lab should practise one new Python skill on top of the earlier labs (C6: variables, units, arrays, tables and plots; C7: functions and fitting a model to data), but always in a form students can complete by running cells and moving sliders.
 

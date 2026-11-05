@@ -149,3 +149,8 @@ The Part 1 images are cut out from much bigger mosaics. Find the full observatio
 * Part 1: JWST NIRCam images of NGC 3324 from program 2731 (the JWST Early Release Observations), via MAST.
 * Part 2: Spitzer IRAC and MIPS images of NGC 7293 from the Spitzer Enhanced Imaging Products, and a Herschel SPIRE image from the Herschel High Level Images, via IRSA. Herschel is an ESA space observatory with science instruments provided by European-led Principal Investigator consortia and with important participation from NASA.
 * All the images were cut out with [`tools/make_c3_data.py`](../tools/make_c3_data.py).
+* Screenshots of SAOImageDS9, developed by the Smithsonian Astrophysical Observatory (Joye & Mandel 2003, ASP Conf. Ser. 295, 489).
+
+---
+
+*© 2026 Queensland University of Technology. Created by Dr Michael Cowley, QUT Astrophysics Research Group, with AI assistance. The text and our own figures are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) and the code under the MIT License. Logos and third-party material are excluded. See [Licence and credits](../README.md#licence-and-credits).*

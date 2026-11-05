@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Queensland University of Technology
 """
 Make the figures used in AstroLab C1.
 

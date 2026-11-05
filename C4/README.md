@@ -210,3 +210,8 @@ Load `gaia_dr3_100pc.fits`, every star within 100 parsecs, and repeat Part 1. Wi
 * Gaia DR3 data from the European Space Agency mission Gaia, processed by the Gaia Data Processing and Analysis Consortium (Gaia Collaboration, Vallenari et al. 2023, A&A, 674, A1). The query follows the Gaia H–R diagram paper (Gaia Collaboration, Babusiaux et al. 2018, A&A, 616, A10).
 * Gaia artist's impression: ESA.
 * The data files were made from the query results with [`tools/make_c4_data.py`](../tools/make_c4_data.py).
+* Screenshots and button icons from TOPCAT, by Mark Taylor (Taylor 2005, ASP Conf. Ser. 347, 29).
+
+---
+
+*© 2026 Queensland University of Technology. Created by Dr Michael Cowley, QUT Astrophysics Research Group, with AI assistance. The text and our own figures are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) and the code under the MIT License. Logos and third-party material are excluded. See [Licence and credits](../README.md#licence-and-credits).*
