@@ -187,3 +187,8 @@ The TESS light curve is also available as a [CSV file](https://github.com/mjcowl
 * Part 1: Faulkes Telescope North images of WASP-2 from the Las Cumbres Observatory archive. Sky atlas: Aladin Lite (CDS, Strasbourg). Planet data from the NASA Exoplanet Archive, operated by Caltech under contract with NASA.
 * Part 2: TESS 2-minute light curve of WASP-2 (TIC 374530847, Sector 81) from the Mikulski Archive for Space Telescopes (MAST). Funding for the TESS mission is provided by NASA's Science Mission Directorate.
 * The transit diagram and TESS plots were made with [`tools/make_c5_data.py`](../tools/make_c5_data.py).
+* Screenshots of AstroImageJ, by Karen Collins and John Kielkopf (Collins et al. 2017, AJ, 153, 77).
+
+---
+
+*© 2026 Queensland University of Technology. Created by Dr Michael Cowley, QUT Astrophysics Research Group, with AI assistance. The text and our own figures are licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) and the code under the MIT License. Logos and third-party material are excluded. See [Licence and credits](../README.md#licence-and-credits).*

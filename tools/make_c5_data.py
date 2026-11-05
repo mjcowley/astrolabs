@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 Queensland University of Technology
 """
 Make the data files and figures used in AstroLab C5.
 

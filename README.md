@@ -83,6 +83,18 @@ astrolabs/
 
 Each lab lists the sources and references for its data at the end. AstroLab C3 uses JWST NIRCam images of NGC 3324 from the JWST Early Release Observations (program 2731, MAST) and Spitzer and Herschel images of NGC 7293 from IRSA. AstroLab C4 uses Gaia DR3 (ESA, Gaia Collaboration, Vallenari et al. 2023). AstroLab C5 uses Faulkes Telescope North images of WASP-2 from the Las Cumbres Observatory archive and the TESS light curve of WASP-2 from MAST. AstroLab C6 uses the BATSE gamma-ray burst catalogue (NASA HEASARC), the 2MASS Redshift Survey (Huchra et al. 2012) and an image of NGC 1365 from the DESI Legacy Imaging Surveys DR10. AstroLab C7 uses the COBE FIRAS CMB spectrum (NASA LAMBDA), JWST NIRSpec spectra from JADES Data Release 4 (MAST), and CMB maps from Planck (NASA/IPAC IRSA) and WMAP (NASA LAMBDA). AstroLab C8 uses galaxy images from the DESI Legacy Imaging Surveys and SDSS, galaxy and AGN spectra from the Brown et al. (2014, 2019) atlases (MAST), the ZFOURGE survey (Straatman et al. 2016) with X-ray AGN matches from Cowley et al. (2016), and the Chandra Deep Field South 7 Ms catalogue (Luo et al. 2017). AstroLab C9 uses the SPARC rotation curve of NGC 2403 (Lelli et al. 2016) and LIGO, Virgo and KAGRA data and event catalogues from the Gravitational Wave Open Science Center. AstroLab C10 uses the Pantheon+ supernova compilation (Scolnic et al. 2022; Brout et al. 2022), the ZFOURGE COSMOS catalogue (Straatman et al. 2016) with UV + IR star formation rates (Tomczak et al. 2016) and HST sizes (van der Wel et al. 2014), and the ZFIRE COSMOS spectroscopic catalogue (Nanayakkara et al. 2016), all via VizieR or the Pantheon+ data release.
 
+## Licence and credits
+
+© 2026 Queensland University of Technology. Created by Dr Michael Cowley, QUT Astrophysics Research Group (QARG).
+
+* **Teaching materials** (the lab instructions, the text of the notebooks, the proformas, the Canvas pages and our own figures) are licensed under the [Creative Commons Attribution 4.0 International licence (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/). See [LICENSE](LICENSE).
+* **Code** (`astrolabs.py`, the scripts in `tools/` and the code cells in the notebooks) is licensed under the [MIT License](LICENSE-CODE).
+* **Not covered by these licences:** the QUT and QARG logos, and third-party images, software screenshots and data (listed in each lab's credits and in *Data credits* below), which stay under their owners' terms.
+
+You're welcome to reuse and adapt these materials. Please credit them as: *AstroLabs by Michael Cowley, QUT Astrophysics Research Group, © Queensland University of Technology, CC BY 4.0, github.com/mjcowley/astrolabs*.
+
+**Use of AI:** These materials were developed by Dr Michael Cowley with the assistance of Claude, an AI model made by Anthropic, which helped draft instructions, code, figures and questions. All content was directed, reviewed and edited by the author, who takes responsibility for its accuracy.
+
 ## Contributing
 
 Contributions are welcome! If you have ideas for improvements or new labs, feel free to open an issue or submit a pull request.
